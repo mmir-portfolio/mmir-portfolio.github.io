@@ -23,7 +23,6 @@ avatar_image: /img/profile_picture.JPG
 #-------------------------------
 # Contact links
 linkedln: "https://www.linkedin.com/in/mammad-mirza#" # Add your linkedln handle
-github: "https://github.com/#"  # Add your github handle
 
 paginate: 6
 paginate_path: "/page/:num"
