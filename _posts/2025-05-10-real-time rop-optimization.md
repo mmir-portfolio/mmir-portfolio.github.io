@@ -14,7 +14,7 @@ If you're not familiar, ROP is a critical metric in drilling operations that mea
 
 - [00. Project Overview](#overview-main)
 - [01. Dataset Overview](#data-overview)
-- [02. Feature Engineering](#FE-overview)
+- [02. Feature Engineering](#feature-overview)
 - [03. Model Selection & Training](#model-selection-application)
 - [04. Real-Time Optimization Engine](#real-time-opt-engine)
 - [05. Visualization](#visualization)
@@ -48,7 +48,7 @@ df = df[df['ROP'] > 0]  # Remove flat sections or non-drilling intervals
 
 ```
 
-# 2.Feature Engineering <a name="FE-overview"></a>
+# 2.Feature Engineering <a name="feature-overview"></a>
  
 We created domain-specific features such as Mechanical Specific Energy (MSE), normalized inputs, and rolling statistics to enhance model performance.
 
