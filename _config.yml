@@ -9,7 +9,7 @@ plugins:
 #-------------------------------
 # General Site Settings
 title: Mammad Mirza
-description: "Hi I'm Mammad, and I'm a Data Scientist with Petroleum Engineering background.  My portfolio focuses on interesting projects I've recently undertaken, with a strong emphasis on business impact. Please visit my LinkedIn pages (or download my Resume) by using the links below!"
+description: "Hi, I’m Mammad. I am a Data Scientist and Reservoir Engineer with a background in system modeling, optimization, and emissions reduction, developed through over a decade of international experience. My portfolio features impactful projects where I applied Python, machine learning, and statistical analysis to streamline workflows, enhance operational efficiency, and support data-driven decision-making. For example, I built Python-based optimization models and Excel VBA tools to allocate lift gas among offshore wells, cutting test times by 26% and increasing daily revenue by $6600. I also developed simulation frameworks for CO₂ storage performance and conducted statistical analyses to optimize injection strategies. Feel free to explore my projects or connect with me using the links below!"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
