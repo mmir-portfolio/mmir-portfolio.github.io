@@ -5,7 +5,7 @@ image: "/posts/rop-optimization-title-img.png"
 tags: [Python, Machine Learning, Drilling, Oil & Gas, Optimization]
 ---
 
-In this project, I developed a real-time Rate of Penetration (ROP) optimization model using supervised machine learning techniques tailored for drilling operations. By analyzing historical drilling data and training regression models, this system can predict ROP under various drilling parameters and suggest optimal inputs in real time to improve drilling efficiency and reduce non-productive time (NPT).
+In this project, we developed a real-time Rate of Penetration (ROP) optimization model using supervised machine learning techniques tailored for drilling operations. By analyzing historical drilling data and training regression models, this system can predict ROP under various drilling parameters and suggest optimal inputs in real time to improve drilling efficiency and reduce non-productive time (NPT).
 
 If you're not familiar, ROP is a critical metric in drilling operations that measures how fast the drill bit penetrates the formation. Optimizing ROP without compromising wellbore stability or equipment integrity can lead to significant time and cost savings.
 
