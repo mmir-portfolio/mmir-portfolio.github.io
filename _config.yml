@@ -9,7 +9,7 @@ plugins:
 #-------------------------------
 # General Site Settings
 title: Mammad Mirza
-description: "Hi, I’m Mammad. I am a Data Scientist and Reservoir Engineer with over 10 years of experience in engineering, asset evaluation, and risk-informed decision making within the energy and infrastructure sectors. Experienced in applying statistical modeling, and leading technical risk assessments, evaluating innovative solutions, and fostering cross-functional collaboration to deliver impactful projects aligned with sustainability and climate change goals. Skilled in data analytics, project coordination, with a strong foundation in safety, cost-benefit analysis, and regulatory compliance. Feel free to explore my projects or connect with me using the links below!"
+description: "Hi, I’m Mammad. I am a Data Scientist and Reservoir Engineer with over 10 years of experience in engineering, asset evaluation, and risk-informed decision making within the energy and infrastructure sectors. Experienced in applying statistical modeling, and leading technical risk assessments, evaluating innovative solutions, and fostering cross-functional collaboration to deliver impactful projects aligned with sustainability and climate change goals. Skilled in data analytics, project coordination, with a strong foundation in safety, cost-benefit analysis, and regulatory compliance. Feel free to explore my projects or connect with me using my Linkedin profile link below!"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
