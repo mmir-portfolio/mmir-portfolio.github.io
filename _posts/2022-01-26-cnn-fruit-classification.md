@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Fruit Classification Using A Convolutional Neural Network
+title: Using Convolutional Neural Networks to Identify Fruit Types
 image: "/posts/cnn-fruit-classification-title-img.png"
 tags: [Deep Learning, CNN, Data Science, Computer Vision, Python]
 ---
