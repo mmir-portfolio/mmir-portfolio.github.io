@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Creating An Image Search Engine Using Deep Learning
+title: Building an Image Similarity Search Engine with Deep Learning
 image: "/posts/dl-search-engine-title-img.png"
 tags: [Deep Learning, CNN, Data Science, Computer Vision, Python]
 ---
