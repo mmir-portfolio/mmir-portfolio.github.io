@@ -5,7 +5,7 @@ image: "/posts/Amazon-bedrock.png"
 tags: [Amazon Bedrock, Claude, Titan Embeddings, OpenSearch, Vector Search, RAG, LLM, Semantic Search, Prompt Engineering]
 ---
 
-A Q&A assistant that helps subsurface engineers extract actionable insights from technical documents (PDFs, reports, production logs) using **Amazon Bedrock**, **vector embeddings**, and **semantic search**.
+In this project, we build a Q&A assistant that helps subsurface engineers extract actionable insights from technical documents (PDFs, reports, production logs) using **Amazon Bedrock**, **vector embeddings**, and **semantic search**.
 
 
 # Table of Contents
