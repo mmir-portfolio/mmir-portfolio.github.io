@@ -26,7 +26,7 @@ A Q&A assistant that helps subsurface engineers extract actionable insights from
 
 ---
 
-## 00. Project Overview <a name="overview-main"></a>
+# Project Overview <a name="overview-main"></a>
 
 ### Problem Statement  <a name="problem-statement"></a>
 Subsurface engineers often need to sift through thousands of pages of CMG simulation reports, drilling summaries, and operational logs to answer specific questions. This is time-consuming and inefficient.
