@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Subsurface Engineering Copilot (LLM + RAG)
-image: "/posts/Amazon bedrock.png"
+image: "/posts/Amazon-bedrock.png"
 tags: [Amazon Bedrock, Claude, Titan Embeddings, OpenSearch, Vector Search, RAG, LLM, Semantic Search, Prompt Engineering]
 ---
 
