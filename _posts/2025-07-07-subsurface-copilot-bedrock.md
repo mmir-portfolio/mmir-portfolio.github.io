@@ -130,7 +130,7 @@ def query_bedrock(prompt):
     return response["completion"]
 ```
 
-### 🌐 Frontend with Streamlit <a name="frontend-streamlit"></a>
+### Frontend with Streamlit <a name="frontend-streamlit"></a>
 ```python
 import streamlit as st
 from ingest.chunker import extract_chunks
