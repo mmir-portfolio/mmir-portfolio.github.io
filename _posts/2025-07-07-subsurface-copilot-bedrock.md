@@ -139,7 +139,7 @@ from search.opensearch_handler import init_index, search_similar
 from qa.bedrock_query import query_bedrock
 
 client = init_index("docs")
-st.title("🛢️ Subsurface Copilot")
+st.title("Subsurface Copilot")
 
 query = st.text_input("Ask your reservoir question:")
 
@@ -154,7 +154,7 @@ Based on the following context:
 Answer the question: {query}
 """
     answer = query_bedrock(prompt)
-    st.markdown(f"### 🧠 Answer\n{answer}")
+    st.markdown(f"### Answer\n{answer}")
 ```
 
 ---
