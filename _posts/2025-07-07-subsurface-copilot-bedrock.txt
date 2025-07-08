@@ -8,7 +8,7 @@ tags: [Amazon Bedrock, Claude, Titan Embeddings, OpenSearch, Vector Search, RAG,
 A Q&A assistant that helps subsurface engineers extract actionable insights from technical documents (PDFs, reports, production logs) using **Amazon Bedrock**, **vector embeddings**, and **semantic search**.
 
 
-## 📚 Table of Contents
+# Table of Contents
 
 - [00. Project Overview](#overview-main)
 	-[Problem Statement](#problem-statement)
