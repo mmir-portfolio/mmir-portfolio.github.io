@@ -11,17 +11,17 @@ A Q&A assistant that helps subsurface engineers extract actionable insights from
 # Table of Contents
 
 - [00. Project Overview](#overview-main)
-	-[Problem Statement](#problem-statement)
-	-[Solution](#problem-solution)
-	-[Architecture Overview](#architecture-overview)
+    -[Problem Statement](#problem-statement)
+    -[Solution](#problem-solution)
+    -[Architecture Overview](#architecture-overview)
 - [01. Dataset Overview](#data-overview)
 - [02. Feature Engineering](#fe-overview)
-	-[Vector Embedding](#vector-embedding)
-	-[Text Chunking](#text-chunking)
+    -[Vector Embedding](#vector-embedding)
+    -[Text Chunking](#text-chunking)
 - [03. Model Selection & Training](#model-selection-application)
 - [04. Real-Time Optimization Engine](#real-time-opt-engine) 
-	-[Querying with LLM](#query-llm)
-	-[Frontend with Streamlit](#frontend-streamlit)
+    -[Querying with LLM](#query-llm)
+    -[Frontend with Streamlit](#frontend-streamlit)
 - [05. Sample Result](#sample-result)
 
 ---
