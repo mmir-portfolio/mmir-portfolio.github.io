@@ -2,7 +2,7 @@
 layout: post
 title: Chat with books you love (Gen AI)
 image: "/posts/OpenAI-img.png"
-tags: [OpenAI,RAG, LangChain, FAISS, GPT-3.5, Vector Search, PDF QA, Document Chatbot, Streamlit, Embeddings, NLP]
+tags: [OpenAI,RAG, LangChain, FAISS, GPT-3.5, Vector Search, PDF QA, Document Chatbot, Streamlit, Embeddings, NLP, LLM]
 ---
 
 **Chat with Books You Love (Gen AI)** is an intelligent document-based chatbot designed to help users interact with their favorite books, research papers, or reports in a natural and intuitive way. Leveraging Retrieval-Augmented Generation (RAG), the system allows users to ask questions about the content of a PDF and receive accurate, context-aware answers in real time. This project demonstrates how to build such a system using OpenAI, LangChain, and FAISS, offering a robust foundation for custom knowledge assistants.
