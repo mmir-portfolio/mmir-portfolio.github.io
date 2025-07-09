@@ -21,7 +21,7 @@ This project demonstrates how to build a **chatbot that can answer questions fro
 
 ---
 
-# 00. Project Overview <a name="00-project-overview"></a>
+# Project Overview <a name="00-project-overview"></a>
 
 This app allows users to upload a PDF document and ask natural language questions about its content. The application performs the following steps:
 
