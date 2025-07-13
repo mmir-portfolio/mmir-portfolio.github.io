@@ -59,7 +59,7 @@ This system uses a simple extract-transform-generate flow:
 3. **LLM prompt & summarization** – Prompted using a LangChain summarization chain
 4. **Result aggregation** – Chunks recombined into a final summary
 
-The Medical Report Summarizer system performs fully automated summarization of uploaded medical PDFs without requiring any user questions. Once a user uploads a report, the system extracts the text, divides it into manageable chunks, and sequentially passes each chunk through a large language model (such as GPT-4). The model then generates a simplified, patient-friendly summary, which is presented directly to the user. This streamlined, no-input-required process is illustrated in the system architecture figure below, highlighting the flow from document ingestion to summary generation.
+The **Medical Report Summarizer** system performs fully automated summarization of uploaded medical PDFs without requiring any user questions. Once a user uploads a report, the system extracts the text, divides it into manageable chunks, and sequentially passes each chunk through a large language model (such as GPT-4). The model then generates a simplified, patient-friendly summary, which is presented directly to the user. This streamlined, no-input-required process is illustrated in the system architecture figure below, highlighting the flow from document ingestion to summary generation.
 
 ![alt text](/img/posts/medical-report-summarizer-architecture.png "Architecture diagram")
 
