@@ -89,7 +89,7 @@ The model searches the documents for relevant context, composes a coherent respo
 # 5. System Architecture <a name="5-system-architecture"></a>
 
 The architecture below visualizes the full stack used to build the assistant:
-
+```
 User (PDF Upload & Question) → Streamlit App
                               ↓
                     Text Extraction (PyPDF2)
@@ -101,6 +101,7 @@ User (PDF Upload & Question) → Streamlit App
       Retrieved Chunks + Question → LLM (GPT-4 via LangChain RetrievalQA)
                               ↓
                 Final Answer Displayed on UI
+```
 
 ### Components:
 - **Document Loader**: Accepts and processes multiple document formats
