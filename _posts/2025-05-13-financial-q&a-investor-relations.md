@@ -90,7 +90,17 @@ The model searches the documents for relevant context, composes a coherent respo
 
 The architecture below visualizes the full stack used to build the assistant:
 
-![alt text](/img/posts/financial-qa-architecture.png "Financial Q&A Engine Architecture")
+User (PDF Upload & Question) → Streamlit App
+                              ↓
+                    Text Extraction (PyPDF2)
+                              ↓
+         Text Chunking + Embeddings (LangChain + OpenAI)
+                              ↓
+                 Vector Search Index (FAISS)
+                              ↓
+      Retrieved Chunks + Question → LLM (GPT-4 via LangChain RetrievalQA)
+                              ↓
+                Final Answer Displayed on UI
 
 ### Components:
 - **Document Loader**: Accepts and processes multiple document formats
