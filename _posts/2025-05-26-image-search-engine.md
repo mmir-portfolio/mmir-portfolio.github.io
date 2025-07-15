@@ -38,7 +38,7 @@ Based upon our work for them using a Convolutional Neural Network, they want to 
 <br>
 ### Actions <a name="overview-actions"></a>
 
-Here we implement the pre-trained VGG16 network. Instead of the final MaxPooling layer, we we add in a **Global Average Pooling Layer** at the end of the VGG16 architecture meaning the output of the network will be a single vector of numeric information rather than many arrays.  We use "feature vector" to compare image similarity.
+Here we implement the pre-trained VGG16 network. Instead of the final MaxPooling layer, we add in a **Global Average Pooling Layer** at the end of the VGG16 architecture meaning the output of the network will be a single vector of numeric information rather than many arrays.  We use "feature vector" to compare image similarity.
 
 We pre-process our 300 base-set images, and then pass them through the VGG16 network to extract their feature vectors.  We store these in an object for use when a search image is fed in.
 
