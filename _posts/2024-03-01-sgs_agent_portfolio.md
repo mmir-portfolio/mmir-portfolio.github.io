@@ -46,7 +46,7 @@ Unlike traditional hard-coded workflows, this **autonomous agent** understands t
 
 
 ## 2. Technologies Used
-<a name="-2.-Technologies-Used"></a>
+<a name="technologies-used"></a>
 
 - **LangChain** – LLM framework to build autonomous agents
 - **OpenAI (GPT-4)** – For geostatistics reasoning and tool selection
@@ -60,7 +60,7 @@ Unlike traditional hard-coded workflows, this **autonomous agent** understands t
 
 
 ##  3. Problem Statement
-<a name="-3.-Problem-Statement"></a>
+<a name="problem-statement"></a>
 
 Environmental datasets (e.g., soil contamination, porosity) often exhibit **spatial heterogeneity**. Estimating uncertainty and generating possible spatial outcomes (realizations) is essential for:
 
@@ -73,7 +73,7 @@ Classical kriging provides **best estimates** but not **uncertainty modeling**. 
 ---
 
 ## 4. Solution Approach
-<a name="-4.-Solution-Approach"></a>
+<a name="solution-approach"></a>
 
 This agent takes the following steps:
 
@@ -88,7 +88,7 @@ This agent takes the following steps:
 
 
 ## 5. Agent Design
-<a name="-5.-Agent-Design"></a>
+<a name="agent-design"></a>
 
 **LangChain** is used to orchestrate the workflow with tool-based reasoning.
 
@@ -121,7 +121,7 @@ agent = initialize_agent(tools, llm, agent_type="zero-shot-react-description")
 
 
 ## 6. Dataset Format (CSV)
-<a name="-6.-Dataset-Format-(CSV)"></a>
+<a name="dataset-format-(CSV)"></a>
 
 The agent expects a CSV input file containing spatial coordinates and the variable of interest (e.g., metal concentration):
 
@@ -139,7 +139,7 @@ The variable column (`Pb_conc` in this case) can be changed depending on the con
 
 
 ##  7. References
-<a name="-7.-References"></a>
+<a name="references"></a>
 
 - [GeostatPy](https://github.com/GeostatsGuy/GeostatPy) – Core geostatistics Python package by Michael Pyrcz
 - [LangChain Documentation](https://docs.langchain.com/) – Open-source framework for building LLM-powered agents
@@ -151,7 +151,7 @@ The variable column (`Pb_conc` in this case) can be changed depending on the con
 ---
 
 ## 8. License
-<a name="-8.-License"></a>
+<a name="license"></a>
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).  
 Free to use, modify, and distribute with attribution.
@@ -160,7 +160,7 @@ Free to use, modify, and distribute with attribution.
 
 
 ##  9. Known Limitations
-<a name="-9.-Known-Limitations"></a>
+<a name="known-limitations"></a>
 
 - The current version performs simulations in batch without real-time progress feedback.
 - No support for trend removal or anisotropic variograms (yet).
@@ -169,7 +169,7 @@ Free to use, modify, and distribute with attribution.
 ---
 
 ##  10. Future Enhancements
-<a name="-10.-Future-Enhancements"></a>
+<a name="future-enhancements"></a>
 
 - [ ] Add support for variogram modeling from input data
 - [ ] Allow user control of simulation grid dimensions, number of realizations
@@ -179,7 +179,7 @@ Free to use, modify, and distribute with attribution.
 ---
 
 ## 11. Example Output Interpretation
-<a name="-11.-Example-Output-Interpretation"></a>
+<a name="-example-output-interpretation"></a>
 
 > "The SGS agent completed 20 realizations on a 100×100 simulation grid.  
 > The output maps show higher uncertainty in the NE quadrant, consistent with sparse sampling in that region.  
