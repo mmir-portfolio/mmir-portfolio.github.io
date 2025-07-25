@@ -171,10 +171,10 @@ Free to use, modify, and distribute with attribution.
 ##  10. Future Enhancements
 <a name="future-enhancements"></a>
 
-- [ ] Add support for variogram modeling from input data
-- [ ] Allow user control of simulation grid dimensions, number of realizations
-- [ ] Streamlit UI for uploading CSV and visualizing output maps
-- [ ] Support other kriging methods (e.g., Ordinary Kriging, Indicator Kriging)
+-  Add support for variogram modeling from input data
+-  Allow user control of simulation grid dimensions, number of realizations
+-  Streamlit UI for uploading CSV and visualizing output maps
+-  Support other kriging methods (e.g., Ordinary Kriging, Indicator Kriging)
 
 ---
 
