@@ -105,7 +105,7 @@ This agent takes the following steps:
 from langchain.agents import initialize_agent, Tool
 from langchain.chat_models import ChatOpenAI
 
-llm = ChatOpenAI(temperature=0, model="gpt-4")
+llm = ChatOpenAI(openai_api_key=OPENAI_API_KEY, temperature=0, model="gpt-4")
 
 tools = [
   Tool(name="Load Data", func=load_csv_and_prepare, description="Load spatial data from CSV"),
