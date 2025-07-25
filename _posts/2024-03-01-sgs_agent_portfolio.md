@@ -31,7 +31,7 @@ A portfolio project demonstrating how to build an intelligent AI agent that perf
 
 
 ##  1. Overview
-<a name="-1.-Overview"></a>
+<a name="overview"></a>
 
 This AI agent is designed to:
 
