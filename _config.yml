@@ -9,7 +9,7 @@ plugins:
 #-------------------------------
 # General Site Settings
 title: Mammad Mirza
-description: "Hi, I’m Mammad, a passionate scientist with a PhD in Engineering and expertise in applied machine learning, computer vision, and scientific data analysis, with direct experience in subsurface systems and resource modeling. My work includes developing image processing workflows for classification, object detection, and pattern recognition, as well as applying statistical techniques such as regression, clustering, and Bayesian inference to extract insights from complex datasets. I am proficient in Python and have built and optimized algorithms for data processing, dimensionality reduction, and Retrieval-Augmented Generation (RAG) systems using frameworks like PyTorch, TensorFlow, Hugging Face, and LangChain. I am particularly passionate about integrating interpretable AI into geology- and mining-related workflows, from reservoir simulation to mineral exploration, and have a proven record of publishing peer-reviewed research, collaborating across disciplines, and delivering solutions that bridge scientific rigor with practical impact."
+description: "Hi, I’m Mammad, a passionate scientist with a PhD in Engineering and expertise in applied machine learning, computer vision, and scientific data analysis, with direct experience in subsurface systems and resource modeling. My work includes developing image processing workflows for classification, object detection, and pattern recognition, as well as applying statistical techniques such as regression, clustering, and Bayesian inference to extract insights from complex datasets. I am proficient in Python and have built and optimized algorithms for data processing, dimensionality reduction, and Retrieval-Augmented Generation (RAG) systems using frameworks like PyTorch, TensorFlow, Hugging Face, and LangChain. I am particularly passionate about ethical, transparent AI and the responsible advancement of ML in impactful domains, such as clean energy, CCUS, subsurface resource extraction, and reservoir simulation."
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
@@ -50,6 +50,7 @@ defaults:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
 
 
 
