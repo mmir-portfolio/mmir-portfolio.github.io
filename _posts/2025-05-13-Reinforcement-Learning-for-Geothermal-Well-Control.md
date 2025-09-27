@@ -153,7 +153,7 @@ The **objective** is to maximize cumulative daily reward.
 
 We implemented a simple RL environment using **OpenAI Gym**:
 
-```python
+```
 import gym
 import numpy as np
 from gym import spaces
@@ -183,3 +183,5 @@ class GeothermalEnv(gym.Env):
     def reset(self):
         self.hour = 0
         return np.array([self.hour], dtype=np.float32)
+```
+
