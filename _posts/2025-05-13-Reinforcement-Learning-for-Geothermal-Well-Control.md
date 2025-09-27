@@ -95,32 +95,51 @@ Where:
 
 # 05. Example Calculation <a name="example-main"></a>
 
-Scenario:
+We estimate geothermal thermal power output as:
 
-- ṁ = 30 kg/s  
-- c<sub>p</sub> = 4180 J/kg·K  
-- T<sub>prod</sub> = 120 °C  
-- T<sub>inj</sub> = 60 °C  
+\[
+Q = \dot{m} \cdot c_p \cdot (T_{\rm prod} - T_{\rm inj})
+\]
 
-Thermal power:
+Where:
 
-<div style="text-align:center;">
-Q = ṁ · c<sub>p</sub> · (T<sub>prod</sub> - T<sub>inj</sub>)  
-Q = 30 · 4180 · (120 - 60)  
-Q ≈ 7.524 × 10<sup>6</sup> W ≈ 7.5 MW<sub>th</sub>
-</div>
+- \(\dot{m}\) : mass flow rate (kg/s)  
+- \(c_p\) : specific heat of water (~4180 J/kg·K)  
+- \(T_{\rm prod}, T_{\rm inj}\) : production and injection temperatures (°C)  
 
 ---
 
-# 06. Conversion to Electricity <a name="conversion-main"></a>
+## Example Calculation
 
-Assuming ORC efficiency η = 12%:
+Suppose:
 
-<div style="text-align:center;">
-P<sub>el</sub> = η · Q  
-P<sub>el</sub> = 0.12 · 7.5  
-P<sub>el</sub> ≈ 0.9 MW<sub>el</sub>
-</div>
+- \(\dot{m} = 30 \, \text{kg/s}\)  
+- \(c_p = 4180 \, \text{J/kg·K}\)  
+- \(T_{\rm prod} = 120^\circ \text{C}\)  
+- \(T_{\rm inj} = 60^\circ \text{C}\)  
+
+Then the thermal power is:
+
+\[
+Q = 30 \cdot 4180 \cdot (120 - 60)
+\]
+
+\[
+Q = 7.524 \times 10^6 \, \text{W} = 7.5 \, \text{MW}_{\rm th}
+\]
+
+If converted to electricity with 12% efficiency:
+
+\[
+P_{\rm el} = 0.12 \cdot 7.5 = 0.9 \, \text{MW}_{\rm el}
+\]
+
+Over a year (8760 hours):
+
+\[
+E = 0.9 \cdot 8760 = 7884 \, \text{MWh/year}
+\]
+
 
 ---
 
@@ -216,3 +235,4 @@ env = GeothermalEnv()
 model = PPO("MlpPolicy", env, verbose=1)
 model.learn(total_timesteps=50_000)  # train for 50,000 steps
 ```
+
