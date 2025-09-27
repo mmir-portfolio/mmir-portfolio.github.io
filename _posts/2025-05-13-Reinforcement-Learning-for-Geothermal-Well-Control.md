@@ -4,132 +4,183 @@ title: Reinforcement Learning for Geothermal Well Control
 image: "/posts/geothermal-rl-title-img.png"
 tags: [Reinforcement Learning, Energy Optimization, Geothermal Well, Python, Clean Energy]
 ---
+# Geothermal Energy Harvesting: A Calculation Framework
 
-- [00. Project Overview](#overview-main)  
-- [01. Introduction to Geothermal Systems](#intro-main)  
-- [02. Why Closed-Loop Geothermal?](#closedloop-main)  
-- [03. Energy Harvested Calculation](#energy-main)  
-- [04. Reinforcement Learning Approach](#rl-main)  
-- [05. Python Implementation](#python-main)  
-- [06. Scaling to Multi-Well Fields](#scaling-main)  
-- [07. Real-World Challenges](#challenges-main)  
-- [08. Future Directions](#future-main)  
-- [09. Results and Insights](#results-main)  
-- [10. Conclusion](#conclusion-main)  
-
----
-
-# Project Overview <a name="overview-main"></a>
-
-This project demonstrates how **Reinforcement Learning (RL)** can be applied to closed-loop geothermal wells to optimize energy extraction.  
-The aim is to dynamically balance **thermal output** with **grid demand**, while ensuring **long-term reservoir sustainability**.  
-
-The study includes:  
-- A thermodynamic model for estimating harvested power  
-- An RL-based control framework  
-- Simulation of well operation against variable demand  
-- Insights into challenges and future potential  
+## Table of Contents
+- [00. Introduction](#introduction-main)
+- [01. Background on Geothermal Energy](#background-main)
+- [02. Principles of Energy Harvesting](#principles-main)
+- [03. Thermal Power Output Equation](#thermal-power-main)
+- [04. Detailed Explanation of Variables](#variables-main)
+- [05. Example Calculation](#example-main)
+- [06. Conversion to Electricity](#conversion-main)
+- [07. Annual Energy Yield](#annual-main)
+- [08. Discussion of Results](#discussion-main)
+- [09. Assumptions and Limitations](#assumptions-main)
+- [10. Real-World Applications](#applications-main)
+- [11. Future Directions](#future-main)
+- [12. Conclusion](#conclusion-main)
+- [13. Python Implementation](#python-main)
 
 ---
 
-# Introduction to Geothermal Systems <a name="intro-main"></a>
+# 00. Introduction <a name="introduction-main"></a>
 
-Geothermal energy taps into the Earth’s internal heat to produce electricity or direct-use heating.  
-Conventional systems rely on hydrothermal resources, where naturally occurring hot water or steam is brought to the surface.  
+Geothermal energy is one of the most reliable forms of renewable energy. Unlike solar or wind, which depend heavily on weather conditions, geothermal power can provide **continuous base-load electricity** throughout the year. This makes it a crucial contributor to sustainable energy portfolios, particularly in regions with high heat flow or accessible geothermal reservoirs.  
 
-Key advantages:  
-- **Base-load power**: provides stable, around-the-clock generation  
-- **Low emissions**: nearly carbon-free  
-- **High capacity factor** compared to wind or solar  
+The purpose of this document is to provide a **step-by-step framework for calculating geothermal thermal power output**, converting it to electricity, and estimating annual energy production. Beyond just equations, this guide includes explanations, examples, and considerations for real-world deployment.
 
-Challenges:  
-- Requires suitable geology (volcanic or tectonically active regions)  
-- Risk of resource depletion if mismanaged  
-- Induced seismicity in some enhanced geothermal projects  
+By the end of this document, a reader should be able to understand how geothermal systems are evaluated quantitatively and how these calculations inform energy planning and feasibility studies.
 
 ---
 
-# Why Closed-Loop Geothermal? <a name="closedloop-main"></a>
+# 01. Background on Geothermal Energy <a name="background-main"></a>
 
-Closed-loop geothermal systems circulate a working fluid in **sealed wells**, preventing direct contact with reservoir fluids.  
+Geothermal energy exploits the natural heat stored beneath the Earth's surface. The primary sources of this heat include:
 
-Benefits:  
-- Avoids scaling, corrosion, and brine handling issues  
-- Can operate in a wider range of geologies  
-- Improved control over injection/production conditions  
+1. **Residual heat from planetary formation**  
+2. **Radioactive decay**  
+3. **Heat transfer from the Earth's core and mantle**
 
-These systems are highly **engineerable**, making them a strong candidate for coupling with **smart control strategies** like RL.
+Geothermal energy is accessed by drilling wells into permeable rock formations containing hot water or steam. The amount of energy that can be harnessed depends on:
 
----
-
-# Energy Harvested Calculation <a name="energy-main"></a>
-
-We estimate geothermal thermal power output as:
-
-$$
-Q = \dot{m} \cdot c_p \cdot (T_{prod} - T_{inj})
-$$
-
-Where:  
-- $\dot{m}$ : mass flow rate (kg/s)  
-- $c_p$ : specific heat of water (~4180 J/kg·K)  
-- $T_{prod}, T_{inj}$ : production and injection temperatures (°C)  
+- **Temperature difference** between production and reinjection  
+- **Flow rate** of geothermal fluid  
+- **Specific heat capacity** of the working fluid
 
 ---
 
-### Example Calculation
+# 02. Principles of Energy Harvesting <a name="principles-main"></a>
 
-Suppose:  
+The core principle is: **capture the thermal energy of fluids extracted from underground reservoirs and utilize it before reinjection.**  
 
-- $\dot{m} = 30 \, \text{kg/s}$  
-- $c_p = 4180 \, \text{J/kg·K}$  
-- $T_{prod} = 120^\circ \text{C}$  
-- $T_{inj} = 60^\circ \text{C}$  
+Key points:
 
-Then:
+- The **temperature difference** between extracted and reinjected fluid determines energy captured  
+- The **mass flow rate** of the fluid influences total energy extracted  
 
-$$
-Q = 30 \cdot 4180 \cdot (120 - 60)
-$$
+Uses:
 
-$$
-Q = 7.524 \times 10^6 \, \text{W} = 7.5 \, \text{MW}_{th}
-$$
-
-If converted to electricity with 12% efficiency:
-
-$$
-P_{el} = 0.12 \cdot 7.5 = 0.9 \, \text{MW}_{el}
-$$
-
-Over a year:
-
-$$
-E = 0.9 \cdot 8760 = 7884 \, \text{MWh/year}
-$$
+- **Direct use:** Heating buildings, industrial processes, aquaculture, greenhouses  
+- **Indirect use:** Electricity generation via turbines or ORC systems  
 
 ---
 
-# Reinforcement Learning Approach <a name="rl-main"></a>
+# 03. Thermal Power Output Equation <a name="thermal-power-main"></a>
 
-The geothermal well control problem is modeled as a **Markov Decision Process (MDP)**:
+The **thermal power** is:
 
-- **State ($s_t$)**: wellhead pressure, flow rate, production temperature, demand profile  
-- **Action ($a_t$)**: adjust injection temperature, valve opening, or pump speed  
-- **Reward ($r_t$)**: penalizes mismatch between output and demand, while regularizing operational safety  
-- **Policy ($\pi$)**: maps observed states to control actions  
+<div style="text-align:center;">
+Q = ṁ · c<sub>p</sub> · (T<sub>prod</sub> - T<sub>inj</sub>)
+</div>
 
-The objective is to maximize expected long-term return:
+Where:
 
-$$
-J(\pi) = \mathbb{E}_{\pi}\left[ \sum_{t=0}^{\infty} \gamma^t r_t \right]
-$$
-
-where $\gamma$ is the discount factor.
+- <b>Q</b> = thermal power (W)  
+- <b>ṁ</b> = mass flow rate (kg/s)  
+- <b>c<sub>p</sub></b> = specific heat (J/kg·K)  
+- <b>T<sub>prod</sub></b> = production temperature (°C)  
+- <b>T<sub>inj</sub></b> = injection temperature (°C)  
 
 ---
 
-# Python Implementation <a name="python-main"></a>
+# 04. Detailed Explanation of Variables <a name="variables-main"></a>
+
+- **Mass flow rate (ṁ):** 20–100 kg/s typical  
+- **Specific heat (c<sub>p</sub>):** ~4180 J/kg·K for water  
+- **Production temperature (T<sub>prod</sub>):** Depends on reservoir depth and geothermal gradient  
+- **Injection temperature (T<sub>inj</sub>):** Typically 40–60 °C  
+
+---
+
+# 05. Example Calculation <a name="example-main"></a>
+
+Scenario:
+
+- ṁ = 30 kg/s  
+- c<sub>p</sub> = 4180 J/kg·K  
+- T<sub>prod</sub> = 120 °C  
+- T<sub>inj</sub> = 60 °C  
+
+Thermal power:
+
+<div style="text-align:center;">
+Q = ṁ · c<sub>p</sub> · (T<sub>prod</sub> - T<sub>inj</sub>)  
+Q = 30 · 4180 · (120 - 60)  
+Q ≈ 7.524 × 10<sup>6</sup> W ≈ 7.5 MW<sub>th</sub>
+</div>
+
+---
+
+# 06. Conversion to Electricity <a name="conversion-main"></a>
+
+Assuming ORC efficiency η = 12%:
+
+<div style="text-align:center;">
+P<sub>el</sub> = η · Q  
+P<sub>el</sub> = 0.12 · 7.5  
+P<sub>el</sub> ≈ 0.9 MW<sub>el</sub>
+</div>
+
+---
+
+# 07. Annual Energy Yield <a name="annual-main"></a>
+
+<div style="text-align:center;">
+E = P<sub>el</sub> · 8760  
+E = 0.9 · 8760  
+E ≈ 7884 MWh/year
+</div>
+
+Enough for ~700 Canadian households (~11 MWh/year each).
+
+---
+
+# 08. Discussion of Results <a name="discussion-main"></a>
+
+- **Temperature difference matters**  
+- **Flow rate matters**  
+- **Efficiency is limited**  
+- **Scalability possible with multiple wells**  
+
+---
+
+# 09. Assumptions and Limitations <a name="assumptions-main"></a>
+
+- Working fluid = water, no phase change  
+- No pipe or pump losses considered  
+- Efficiency fixed at 12%  
+- Reservoir sustainability not considered  
+
+---
+
+# 10. Real-World Applications <a name="applications-main"></a>
+
+- **Iceland:** ~90% households geothermal heating  
+- **USA (The Geysers):** >1500 MW  
+- **Kenya (Rift Valley):** >900 MW  
+- **Turkey:** Rapid ORC plant expansion  
+
+---
+
+# 11. Future Directions <a name="future-main"></a>
+
+- **EGS:** Fracturing rocks for deeper heat  
+- **Hybrid systems:** Geothermal + solar/biomass  
+- **Carbon capture synergy**  
+- **Direct-use expansion**  
+
+---
+
+# 12. Conclusion <a name="conclusion-main"></a>
+
+- Reliable base-load power  
+- Modest systems: ~8 GWh/year  
+- Wider adoption reduces fossil fuel reliance and stabilizes grids  
+
+---
+
+# 13. Python Implementation <a name="python-main"></a>
 
 Below is a simplified prototype implementation using **Stable Baselines3 (PPO)**:
 
