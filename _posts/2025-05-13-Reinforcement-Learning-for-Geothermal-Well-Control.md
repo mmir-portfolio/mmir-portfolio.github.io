@@ -6,6 +6,7 @@ tags: [Reinforcement Learning, Energy Optimization, Geothermal Well, Python, Cle
 ---
 
 # Geothermal Energy Harvesting: A Calculation Framework
+This project provides a **comprehensive framework** to understand how geothermal energy is harvested, calculated, and evaluated. It moves from first principles to real-world applications, blending theory, practical calculation, and modern computational techniques such as **reinforcement learning (RL)** for optimization of well control strategies.  
 
 ## Table of Contents
 - [00. Introduction](#introduction-main)
@@ -29,7 +30,7 @@ tags: [Reinforcement Learning, Energy Optimization, Geothermal Well, Python, Cle
 
 Geothermal energy is a **renewable, reliable, and base-load capable** energy source. Unlike solar and wind power, which fluctuate with weather and diurnal cycles, geothermal energy is available 24/7. This makes it one of the few renewable technologies capable of providing stable, dispatchable electricity for the grid.  
 
-This project provides a **comprehensive framework** to understand how geothermal energy is harvested, calculated, and evaluated. It moves from first principles to real-world applications, blending theory, practical calculation, and modern computational techniques such as **reinforcement learning (RL)** for optimization of well control strategies.  
+
 
 By the end of this document, you will:  
 
@@ -254,6 +255,7 @@ for step in range(10):
     print(f"  Demand: {info['Demand'] / 1e6:.2f} MW_th")
     print(f"  Reward: {reward:.2f}")
 ```
+
 
 
 
