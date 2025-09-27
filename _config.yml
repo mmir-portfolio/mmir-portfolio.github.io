@@ -9,7 +9,7 @@ plugins:
 #-------------------------------
 # General Site Settings
 title: Mammad Mirza
-description: "Hi, I’m Mammad, a passionate scientist with a PhD in Engineering and expertise in applied machine learning, computer vision, and scientific data analysis, with direct experience in subsurface systems and resource modeling. My work includes developing image processing workflows for classification, object detection, and pattern recognition, as well as applying statistical techniques such as regression, clustering, and Bayesian inference to extract insights from complex datasets. I am proficient in Python and have built and optimized algorithms for data processing, dimensionality reduction, and Retrieval-Augmented Generation (RAG) systems using frameworks like PyTorch, TensorFlow, Hugging Face, and LangChain. I am particularly passionate about ethical, transparent AI and the responsible advancement of ML in impactful domains, such as clean energy, CCUS, subsurface resource extraction, and reservoir simulation."
+description: "Hi, I’m Mammad, a passionate scientist with a PhD in Engineering and expertise in subsurface resource engineering, applied machine learning, and scientific data analysis. My research spans reservoir simulation, CO₂ storage evaluation, geothermal energy, and hydrogen storage, where I combine physics-based modeling with advanced data-driven approaches to optimize safety, efficiency, and sustainability. I have also developed image processing workflows and statistical models to analyze complex subsurface datasets, applying techniques such as regression, clustering, and Bayesian inference for characterization and monitoring. Proficient in Python, I build and optimize algorithms for data processing, uncertainty quantification, and hybrid ML–reservoir modeling using frameworks like PyTorch, TensorFlow, and Hugging Face. I am particularly passionate about integrating ethical, transparent AI into subsurface resource engineering, ensuring that innovations in CCUS, clean energy, and reservoir management contribute responsibly to the global energy transition."
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
@@ -50,6 +50,7 @@ defaults:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
 
 
 
