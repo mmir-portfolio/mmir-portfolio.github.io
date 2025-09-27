@@ -6,34 +6,59 @@ tags: [Reinforcement Learning, Energy Optimization, Geothermal Well, Python, Cle
 ---
 
 - [00. Project Overview](#overview-main)  
-- [01. Background](#background-main)  
-- [02. Energy Harvested Calculation](#energy-main)  
-- [03. Reinforcement Learning Approach](#rl-main)  
-- [04. Python Implementation](#python-main)  
-- [05. Results and Insights](#results-main)  
+- [01. Introduction to Geothermal Systems](#intro-main)  
+- [02. Why Closed-Loop Geothermal?](#closedloop-main)  
+- [03. Energy Harvested Calculation](#energy-main)  
+- [04. Reinforcement Learning Approach](#rl-main)  
+- [05. Python Implementation](#python-main)  
+- [06. Scaling to Multi-Well Fields](#scaling-main)  
+- [07. Real-World Challenges](#challenges-main)  
+- [08. Future Directions](#future-main)  
+- [09. Results and Insights](#results-main)  
+- [10. Conclusion](#conclusion-main)  
 
 ---
 
 # Project Overview <a name="overview-main"></a>
 
-This project explores how **Reinforcement Learning (RL)** can be applied to the control of closed-loop geothermal wells for optimizing thermal energy extraction.  
-By dynamically adjusting injection and production strategies, RL enables systems to respond to **peak electricity demand** while maximizing long-term geothermal reservoir sustainability.
+This project demonstrates how **Reinforcement Learning (RL)** can be applied to closed-loop geothermal wells to optimize energy extraction.  
+The aim is to dynamically balance **thermal output** with **grid demand**, while ensuring **long-term reservoir sustainability**.  
+
+The study includes:  
+- A thermodynamic model for estimating harvested power  
+- An RL-based control framework  
+- Simulation of well operation against variable demand  
+- Insights into challenges and future potential  
 
 ---
 
-# Background <a name="background-main"></a>
+# Introduction to Geothermal Systems <a name="intro-main"></a>
 
-Closed-loop geothermal systems circulate a working fluid through subsurface heat exchangers without directly extracting brine or reservoir fluids.  
-Unlike conventional geothermal wells, these systems are less prone to scaling, corrosion, or depletion-related issues.
+Geothermal energy taps into the Earth’s internal heat to produce electricity or direct-use heating.  
+Conventional systems rely on hydrothermal resources, where naturally occurring hot water or steam is brought to the surface.  
 
-However, effective energy extraction depends on managing:
+Key advantages:  
+- **Base-load power**: provides stable, around-the-clock generation  
+- **Low emissions**: nearly carbon-free  
+- **High capacity factor** compared to wind or solar  
 
-- **Flow rates**  
-- **Temperature gradients**  
-- **Reservoir pressure conditions**  
-- **Surface demand variability**
+Challenges:  
+- Requires suitable geology (volcanic or tectonically active regions)  
+- Risk of resource depletion if mismanaged  
+- Induced seismicity in some enhanced geothermal projects  
 
-Traditional controllers (PID, rule-based logic) may not adapt optimally to rapidly changing energy demands. RL offers a **data-driven, adaptive control method**.
+---
+
+# Why Closed-Loop Geothermal? <a name="closedloop-main"></a>
+
+Closed-loop geothermal systems circulate a working fluid in **sealed wells**, preventing direct contact with reservoir fluids.  
+
+Benefits:  
+- Avoids scaling, corrosion, and brine handling issues  
+- Can operate in a wider range of geologies  
+- Improved control over injection/production conditions  
+
+These systems are highly **engineerable**, making them a strong candidate for coupling with **smart control strategies** like RL.
 
 ---
 
@@ -45,17 +70,16 @@ $$
 Q = \dot{m} \cdot c_p \cdot (T_{prod} - T_{inj})
 $$
 
-Where:
-
+Where:  
 - $\dot{m}$ : mass flow rate (kg/s)  
 - $c_p$ : specific heat of water (~4180 J/kg·K)  
-- $(T_{prod}, T_{inj})$ : production and injection temperatures (°C)  
+- $T_{prod}, T_{inj}$ : production and injection temperatures (°C)  
 
 ---
 
 ### Example Calculation
 
-Suppose:
+Suppose:  
 
 - $\dot{m} = 30 \, \text{kg/s}$  
 - $c_p = 4180 \, \text{J/kg·K}$  
@@ -88,32 +112,33 @@ $$
 
 # Reinforcement Learning Approach <a name="rl-main"></a>
 
-The RL formulation involves:
+The geothermal well control problem is modeled as a **Markov Decision Process (MDP)**:
 
-- **Environment**: geothermal reservoir + surface plant dynamics  
-- **Agent**: controller (e.g., PPO, DQN)  
-- **State ($s_t$)**: flow rate, wellhead pressure, temperature gradient, current demand  
-- **Action ($a_t$)**: adjust flow rates, injection temperature, or valve control  
-- **Reward ($r_t$)**: balance between (i) maximizing energy output and (ii) meeting demand at minimum operational cost  
+- **State ($s_t$)**: wellhead pressure, flow rate, production temperature, demand profile  
+- **Action ($a_t$)**: adjust injection temperature, valve opening, or pump speed  
+- **Reward ($r_t$)**: penalizes mismatch between output and demand, while regularizing operational safety  
+- **Policy ($\pi$)**: maps observed states to control actions  
 
-Mathematically, the agent maximizes expected return:
+The objective is to maximize expected long-term return:
 
 $$
 J(\pi) = \mathbb{E}_{\pi}\left[ \sum_{t=0}^{\infty} \gamma^t r_t \right]
 $$
 
-where $\pi$ is the policy and $\gamma$ is the discount factor.
+where $\gamma$ is the discount factor.
 
 ---
 
 # Python Implementation <a name="python-main"></a>
 
-```python
+Below is a simplified prototype implementation using **Stable Baselines3 (PPO)**:
+
+```
 import gym
 import numpy as np
 from stable_baselines3 import PPO
 
-# Define custom geothermal environment
+# Custom geothermal environment
 class GeothermalEnv(gym.Env):
     def __init__(self):
         super(GeothermalEnv, self).__init__()
@@ -139,3 +164,4 @@ class GeothermalEnv(gym.Env):
 env = GeothermalEnv()
 model = PPO("MlpPolicy", env, verbose=1)
 model.learn(total_timesteps=50_000)  # train for 50,000 steps
+```
