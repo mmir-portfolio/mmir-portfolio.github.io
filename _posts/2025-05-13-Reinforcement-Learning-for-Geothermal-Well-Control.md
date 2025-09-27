@@ -6,6 +6,7 @@ tags: [Reinforcement Learning, Energy Optimization, Geothermal Well, Python, Cle
 ---
 
 # Geothermal Energy Harvesting: A Calculation Framework
+
 This project provides a **comprehensive framework** to understand how geothermal energy is harvested, calculated, and evaluated. It moves from first principles to real-world applications, blending theory, practical calculation, and modern computational techniques such as **reinforcement learning (RL)** for optimization of well control strategies.  
 
 ## Table of Contents
@@ -255,6 +256,7 @@ for step in range(10):
     print(f"  Demand: {info['Demand'] / 1e6:.2f} MW_th")
     print(f"  Reward: {reward:.2f}")
 ```
+
 
 
 
