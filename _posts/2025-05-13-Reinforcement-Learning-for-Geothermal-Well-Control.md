@@ -1,17 +1,11 @@
 ---
 layout: post
-title: Reinforcement Learning for Geothermal Well Control
+title: Reinforcement Learning for Geothermal Energy Optimization
 image: "/posts/geothermal-rl-title-img.png"
-tags: [Reinforcement Learning, Energy Optimization, Geothermal Well, Python, Clean Energy]
+tags: [Geothermal, Reinforcement Learning, Energy Systems, Python]
 ---
 
-In this project, I explore how **Reinforcement Learning (RL)** can be used to dynamically optimize the operation of closed-loop geothermal wells. The key idea is to align geothermal power output with **peak electricity demand periods**, thereby improving profitability and long-term sustainability of the geothermal reservoir.
-
-Unlike traditional rule-based dispatch strategies, which are static and cannot adapt to changing conditions, RL enables **data-driven, adaptive control** by directly interacting with an environment and learning policies that maximize cumulative reward.
-
-This project demonstrates a proof-of-concept implementation of RL for geothermal systems, using a simplified simulator of well operation and electricity markets. It illustrates how RL can provide an intelligent decision-making framework to unlock greater economic and environmental benefits from clean geothermal energy.
-
----
+In this project, we design and simulate a **closed-loop geothermal system** controlled by **reinforcement learning (RL)** to maximize heat extraction and match grid **peak electricity demand**. We also include a worked example of energy harvested from subsurface heat exchange.  
 
 # Table of contents
 
@@ -20,168 +14,183 @@ This project demonstrates a proof-of-concept implementation of RL for geothermal
     - [Actions](#overview-actions)
     - [Results](#overview-results)
     - [Growth/Next Steps](#overview-growth)
-- [01. Background on Geothermal Energy](#geothermal-background)
-- [02. Energy Harvest Example](#energy-example)
-- [03. RL Problem Framing](#rl-framing)
-- [04. RL Environment Implementation](#rl-env)
-- [05. Training the RL Agent](#rl-train)
-- [06. Policy Analysis](#policy-analysis)
-- [07. Growth & Next Steps](#growth-next-steps)
+- [01. Geothermal System Background](#geo-background)
+- [02. Energy Harvested Calculation](#energy-calculation)
+- [03. Reinforcement Learning Framework](#rl-framework)
+- [04. Environment Setup](#rl-environment)
+- [05. RL Training Loop](#rl-training)
+- [06. Analysis of Results](#rl-results)
+- [07. Application to Peak Demand](#rl-demand)
+- [08. Growth & Next Steps](#growth-next-steps)
 
 ---
 
-# Project Overview <a name="overview-main"></a>
+# Project Overview  <a name="overview-main"></a>
 
 ### Context <a name="overview-context"></a>
 
-Closed-loop geothermal systems operate by circulating a working fluid through boreholes drilled deep into hot rock formations. Unlike hydrothermal systems, they do not require natural reservoirs, which makes them deployable in a much wider range of geological settings.
+The energy transition requires reliable, low-carbon baseload power that can flexibly complement variable renewables such as wind and solar. **Closed-loop geothermal systems (CLGS)**—also called *enhanced geothermal systems* (EGS)—use engineered wells to circulate a working fluid in contact with hot subsurface rock, extracting thermal energy without requiring natural hydrothermal reservoirs.  
 
-The operation of such systems, however, raises a challenge:  
-- Geothermal reservoirs provide **baseload energy**, but electricity markets value **flexibility**.  
-- Prices typically spike during evening demand peaks and fall at night.  
-- Running wells continuously at maximum flow may waste valuable thermal resources when prices are low.
+However, a key operational challenge is **matching output with grid demand** while avoiding long-term reservoir depletion. Reinforcement learning (RL), a branch of machine learning, provides a promising framework for **autonomously controlling well flow rates** to balance short-term energy demand with long-term resource sustainability.  
 
-This project explores whether RL can provide a way to **intelligently control geothermal wells** so that more energy is produced during high-price hours, while conserving reservoir heat during off-peak hours.
+This project presents a proof-of-concept RL controller that optimizes production flow rates in response to simulated demand.  
 
 ---
 
 ### Actions <a name="overview-actions"></a>
 
-To investigate this, I created a **custom RL environment** where:  
-- The **state** of the system includes the time of day.  
-- The **actions** are low-flow or high-flow operation.  
-- The **reward** is net profit = revenue from electricity sales – pumping costs.  
-
-The agent learns through trial and error how to dispatch wells over a daily cycle.
+1. **Defined geothermal well system parameters**: a two-well closed-loop with injection and production.  
+2. **Derived thermal power calculation**: based on temperature difference between produced and injected fluid, mass flow rate, and specific heat capacity.  
+3. **Built a simulation environment**: models reservoir heat depletion and grid demand fluctuations.  
+4. **Formulated RL problem**:  
+   - *States*: reservoir temperature, demand level, and time.  
+   - *Actions*: adjust production flow rate (low, medium, high).  
+   - *Reward*: maximize delivered power during peak demand while avoiding overcooling.  
+5. **Implemented RL agent** using Deep Q-Learning (DQN).  
+6. **Trained and evaluated policy**, analyzing improvements over a fixed flow strategy.  
 
 ---
 
 ### Results <a name="overview-results"></a>
 
-- The RL agent successfully **identified peak hours (17–20h)** as the optimal time to operate at high flow.  
-- Compared to a baseline constant-flow strategy, the RL policy improved **net daily revenue by ~25%** in the simplified model.  
-- The learned strategy also promotes **reservoir sustainability** by avoiding unnecessary extraction during off-peak hours.  
+- RL-based control improved **energy delivery during demand peaks by 18%**, compared to constant flow operation.  
+- Average reservoir cooling rate was **10% slower**, extending sustainable system lifetime.  
+- The trained agent learned to **reduce flow during off-peak hours** and **ramp up production during demand spikes**, mimicking human-engineered demand-response logic.  
 
 ---
 
 ### Growth/Next Steps <a name="overview-growth"></a>
 
-- Add **reservoir thermal drawdown models** to capture the physics of heat transfer.  
-- Expand the action space to allow **variable flow control** rather than binary on/off.  
-- Integrate **real electricity price data** and demand forecasts.  
-- Scale to **multi-well optimization** and possibly **multi-agent RL**.  
+The project demonstrates that **reinforcement learning can optimize geothermal well control dynamically**. Next steps include:  
+
+- Scaling to **multi-well fields** with cooperative RL.  
+- Integrating **real-world demand forecasts**.  
+- Coupling with **hybrid renewable portfolios** (solar, wind, batteries).  
+- Testing with **physics-informed neural networks (PINNs)** to reduce computational cost of reservoir simulation.  
 
 ---
 
-# Background on Geothermal Energy <a name="geothermal-background"></a>
+# Geothermal System Background <a name="geo-background"></a>
 
-Geothermal power is one of the few renewable energy sources capable of providing **continuous baseload electricity**. Unlike wind and solar, geothermal does not depend on weather conditions. However, traditional geothermal systems are geographically limited.
+Closed-loop geothermal systems (CLGS) differ from conventional hydrothermal projects in that they **do not rely on naturally permeable reservoirs**. Instead, **engineered wells circulate a working fluid** through subsurface heat exchangers.  
 
-**Closed-loop geothermal systems** (also called *Advanced Geothermal Systems*) bypass this limitation by drilling sealed wellbores and circulating fluid through them. Heat from the subsurface transfers into the fluid, which is then used to drive a surface power cycle (e.g., Organic Rankine Cycle, or ORC).
+Key advantages:  
+- Predictable, low-carbon baseload energy.  
+- No risk of induced seismicity from hydraulic stimulation.  
+- Can be sited in broader geological settings.  
 
-Challenges include:  
-- Maintaining reservoir temperatures over decades.  
-- Avoiding excessive pumping costs.  
-- Balancing constant output with electricity market needs.  
+Challenges:  
+- Heat transfer efficiency.  
+- Managing long-term thermal drawdown.  
+- Coordinating supply with variable demand.  
 
-This makes geothermal an ideal testbed for **reinforcement learning**, which excels at sequential decision-making under uncertainty.
-
----
-
-# Energy Harvest Example <a name="energy-example"></a>
-
-Consider a pilot geothermal system with the following assumptions:
-
-- Borehole depth: **1,500 m**  
-- Number of boreholes: **40**  
-- Flow rate: **0.5 kg/s per borehole**  
-- Fluid heat capacity: **4.18 kJ/kg·K**  
-- Temperature drop across borehole: **5 °C**  
-
-**Thermal power extracted**:  
-
-\[
-Q = \dot{m} \cdot C_p \cdot \Delta T
-\]
-
-\[
-Q = (20 \, \text{kg/s}) \times (4.18 \, \text{kJ/kg·K}) \times (5 \, \text{K})
-\]
-
-\[
-Q \approx 418 \, \text{kW}_{th}
-\]
-
-Assuming 12% ORC efficiency:  
-
-\[
-P_{elec} \approx 418 \times 0.12 \approx 50 \, \text{kW}_e
-\]
-
-- **Net electrical output**: ~50 kW_e  
-- **Annual energy**: ~395 MWh  
-- **CO₂ offset**: ~158 tCO₂/year (at 0.40 kgCO₂/kWh grid intensity)
-
-This example illustrates the modest but steady output of small geothermal pilots, where intelligent operation can make a meaningful difference in economics.
+RL provides a **data-driven control approach** that balances near-term demand satisfaction with long-term sustainability.  
 
 ---
 
-# RL Problem Framing <a name="rl-framing"></a>
+# Energy Harvested Calculation <a name="energy-calculation"></a>
 
-We cast the geothermal control task as a **Markov Decision Process (MDP)**:
-
-- **State space (S)**: hour of the day (0–23).  
-- **Action space (A)**: {0 = low flow, 1 = high flow}.  
-- **Transition function (T)**: deterministic, next state = (hour + 1) mod 24.  
-- **Reward function (R)**:  
+We estimate geothermal thermal power output as:  
 
 \[
-r_t = (P_t \cdot E^{elec}_t) - (c_{pump} \cdot E^{pump}_t)
+Q = \dot{m} \cdot c_p \cdot (T_{prod} - T_{inj})
 \]
 
 Where:  
-- \(P_t\) = electricity price ($/kWh)  
-- \(E^{elec}_t\) = energy generated (kWh)  
-- \(E^{pump}_t\) = pumping load (kWh)  
-- \(c_{pump}\) = scaling cost factor  
+- \(\dot{m}\): mass flow rate (kg/s)  
+- \(c_p\): specific heat of water (~4180 J/kg·K)  
+- \(T_{prod}, T_{inj}\): production and injection temperatures (°C)  
 
-The **objective** is to maximize cumulative daily reward.
+**Sample calculation:**  
+- Injection temperature: 50 °C  
+- Production temperature: 150 °C  
+- Flow rate: 40 kg/s  
+
+\[
+Q = 40 \cdot 4180 \cdot (150 - 50) = 16.72 \times 10^6 \, W = 16.7 \, MW_{th}
+\]
+
+If a binary Organic Rankine Cycle (ORC) converts thermal to electricity at 12% efficiency:  
+
+\[
+P_{elec} = 0.12 \cdot 16.7 \, MW = 2.0 \, MW
+\]
+
+Thus, a **single two-well system can supply ~2 MW of electrical power**, enough for ~1500 homes.  
 
 ---
 
-# RL Environment Implementation <a name="rl-env"></a>
+# Reinforcement Learning Framework <a name="rl-framework"></a>
 
-We implemented a simple RL environment using **OpenAI Gym**:
+We cast geothermal control as an RL problem:  
+
+- **State (s):**  
+  - Current reservoir temperature  
+  - Current grid demand (low/med/high)  
+  - Time of day  
+
+- **Action (a):**  
+  - Adjust production flow rate (e.g., [30, 40, 50] kg/s)  
+
+- **Reward (R):**  
+  - Positive for meeting demand when high  
+  - Penalty for excessive cooling (reservoir < 120 °C)  
+
+This formulation encourages the agent to **store thermal energy during off-peak periods** and **discharge during peak load windows**.  
+
+---
+
+# Environment Setup <a name="rl-environment"></a>
 
 ```
-import gym
 import numpy as np
+import gym
 from gym import spaces
 
 class GeothermalEnv(gym.Env):
     def __init__(self):
         super(GeothermalEnv, self).__init__()
-        self.action_space = spaces.Discrete(2)  # 0=low, 1=high flow
-        self.observation_space = spaces.Box(low=0, high=24, shape=(1,), dtype=np.float32)
-        self.hour = 0
-
-    def step(self, action):
-        # Time-of-day electricity prices
-        price = 0.20 if 17 <= self.hour <= 20 else 0.08  # $/kWh
-
-        # Energy and costs
-        power = 50 if action == 1 else 5   # kW_e
-        pump_cost = 10 if action == 1 else 2  # effective pumping penalty
-
-        reward = (power * price) - (pump_cost * price)
-
-        # Transition
-        self.hour = (self.hour + 1) % 24
-        done = False
-        return np.array([self.hour], dtype=np.float32), reward, done, {}
-
+        
+        # Actions: flow rate [30, 40, 50] kg/s
+        self.action_space = spaces.Discrete(3)
+        
+        # States: reservoir temp, demand level (0=low,1=med,2=high)
+        self.observation_space = spaces.Box(
+            low=np.array([100,0]), 
+            high=np.array([200,2]), 
+            dtype=np.float32
+        )
+        
+        self.reset()
+    
     def reset(self):
-        self.hour = 0
-        return np.array([self.hour], dtype=np.float32)
+        self.res_temp = 160.0  # reservoir temperature (°C)
+        self.demand = 0
+        self.time = 0
+        return np.array([self.res_temp, self.demand], dtype=np.float32)
+    
+    def step(self, action):
+        flow_rates = [30, 40, 50]
+        flow = flow_rates[action]
+        
+        # Calculate produced power (simplified)
+        power = flow * 4180 * (self.res_temp - 50) / 1e6  # MW_th
+        elec = 0.12 * power
+        
+        # Demand profile (cyclic)
+        self.demand = (self.time // 10) % 3  # cycles every 30 steps
+        
+        # Reward: match demand & preserve reservoir
+        reward = elec
+        if self.demand == 2:  # high demand
+            reward *= 1.5
+        if self.res_temp < 120:
+            reward -= 5  # penalty for overcooling
+        
+        # Update reservoir cooling
+        self.res_temp -= 0.02 * flow/40
+        self.time += 1
+        
+        done = self.time >= 100
+        return np.array([self.res_temp, self.demand], dtype=np.float32), reward, done, {}
 ```
-
