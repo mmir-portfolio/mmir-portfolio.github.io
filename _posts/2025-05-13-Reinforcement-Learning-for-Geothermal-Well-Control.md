@@ -4,6 +4,7 @@ title: Reinforcement Learning for Geothermal Well Control
 image: "/posts/geothermal-rl-title-img.png"
 tags: [Reinforcement Learning, Energy Optimization, Geothermal Well, Python, Clean Energy]
 ---
+
 # Geothermal Energy Harvesting: A Calculation Framework
 
 ## Table of Contents
@@ -26,195 +27,233 @@ tags: [Reinforcement Learning, Energy Optimization, Geothermal Well, Python, Cle
 
 # 00. Introduction <a name="introduction-main"></a>
 
-Geothermal energy is one of the most reliable forms of renewable energy. Unlike solar or wind, which depend heavily on weather conditions, geothermal power can provide **continuous base-load electricity** throughout the year. This makes it a crucial contributor to sustainable energy portfolios, particularly in regions with high heat flow or accessible geothermal reservoirs.  
+Geothermal energy is a **renewable, reliable, and base-load capable** energy source. Unlike solar and wind power, which fluctuate with weather and diurnal cycles, geothermal energy is available 24/7. This makes it one of the few renewable technologies capable of providing stable, dispatchable electricity for the grid.  
 
-The purpose of this document is to provide a **step-by-step framework for calculating geothermal thermal power output**, converting it to electricity, and estimating annual energy production. Beyond just equations, this guide includes explanations, examples, and considerations for real-world deployment.
+This project provides a **comprehensive framework** to understand how geothermal energy is harvested, calculated, and evaluated. It moves from first principles to real-world applications, blending theory, practical calculation, and modern computational techniques such as **reinforcement learning (RL)** for optimization of well control strategies.  
 
-By the end of this document, a reader should be able to understand how geothermal systems are evaluated quantitatively and how these calculations inform energy planning and feasibility studies.
+By the end of this document, you will:  
+
+- Understand the **thermodynamic basis** for geothermal energy calculations.  
+- See **step-by-step worked examples** of thermal power and electricity conversion.  
+- Appreciate the **assumptions and constraints** behind these models.  
+- Gain insight into **real-world geothermal projects**.  
+- Learn how **Python and RL frameworks** can simulate and optimize geothermal systems.  
 
 ---
 
 # 01. Background on Geothermal Energy <a name="background-main"></a>
 
-Geothermal energy exploits the natural heat stored beneath the Earth's surface. The primary sources of this heat include:
+The Earth’s crust stores immense amounts of thermal energy. This heat originates from:  
 
-1. **Residual heat from planetary formation**  
-2. **Radioactive decay**  
-3. **Heat transfer from the Earth's core and mantle**
+1. **Residual planetary heat** retained since Earth’s formation.  
+2. **Radioactive decay** of isotopes such as uranium, thorium, and potassium.  
+3. **Mantle convection**, which transfers heat toward the crust.  
 
-Geothermal energy is accessed by drilling wells into permeable rock formations containing hot water or steam. The amount of energy that can be harnessed depends on:
+The global geothermal gradient averages about **25–30 °C/km**, though in tectonically active regions, it can exceed **80 °C/km**. When permeable rock formations intersect with circulating groundwater, **geothermal reservoirs** form.  
 
-- **Temperature difference** between production and reinjection  
-- **Flow rate** of geothermal fluid  
-- **Specific heat capacity** of the working fluid
+Harnessing this energy involves drilling production wells to bring hot water or steam to the surface, extracting useful heat, and then reinjecting the cooled fluid through reinjection wells.  
 
 ---
 
 # 02. Principles of Energy Harvesting <a name="principles-main"></a>
 
-The core principle is: **capture the thermal energy of fluids extracted from underground reservoirs and utilize it before reinjection.**  
+The fundamental principle is **thermal extraction from a circulating fluid**.  
 
-Key points:
+- **Temperature difference (ΔT):** The bigger the gap between production temperature and reinjection temperature, the greater the available energy.  
+- **Mass flow rate (ṁ):** Higher flow rates mean more thermal energy can be carried per unit time.  
 
-- The **temperature difference** between extracted and reinjected fluid determines energy captured  
-- The **mass flow rate** of the fluid influences total energy extracted  
+Applications fall into two main categories:  
 
-Uses:
-
-- **Direct use:** Heating buildings, industrial processes, aquaculture, greenhouses  
-- **Indirect use:** Electricity generation via turbines or ORC systems  
+- **Direct use applications:** District heating, greenhouse heating, aquaculture, snow melting, and industrial drying. These have higher overall energy efficiency since no thermal-to-electricity conversion losses occur.  
+- **Indirect use applications:** Electricity generation using steam turbines or Organic Rankine Cycle (ORC) systems. These are essential for integrating geothermal into power grids but have conversion efficiencies of **10–20%** depending on technology.  
 
 ---
 
 # 03. Thermal Power Output Equation <a name="thermal-power-main"></a>
 
-The **thermal power** is:
+The basic thermal power equation is:  
 
 <div style="text-align:center;">
 Q = ṁ · c<sub>p</sub> · (T<sub>prod</sub> - T<sub>inj</sub>)
 </div>
 
-Where:
+Where:  
 
-- <b>Q</b> = thermal power (W)  
-- <b>ṁ</b> = mass flow rate (kg/s)  
-- <b>c<sub>p</sub></b> = specific heat (J/kg·K)  
-- <b>T<sub>prod</sub></b> = production temperature (°C)  
-- <b>T<sub>inj</sub></b> = injection temperature (°C)  
+- **Q** = thermal power output (W)  
+- **ṁ** = mass flow rate (kg/s)  
+- **c<sub>p</sub>** = specific heat capacity of water (4180 J/kg·K)  
+- **T<sub>prod</sub>** = production temperature (°C)  
+- **T<sub>inj</sub>** = reinjection temperature (°C)  
+
+This equation assumes single-phase liquid water with no phase change. For high-enthalpy steam-dominated systems, enthalpy-based calculations are used instead.  
 
 ---
 
 # 04. Detailed Explanation of Variables <a name="variables-main"></a>
 
-- **Mass flow rate (ṁ):** 20–100 kg/s typical  
-- **Specific heat (c<sub>p</sub>):** ~4180 J/kg·K for water  
-- **Production temperature (T<sub>prod</sub>):** Depends on reservoir depth and geothermal gradient  
-- **Injection temperature (T<sub>inj</sub>):** Typically 40–60 °C  
+1. **Mass flow rate (ṁ):**  
+   Typical geothermal wells produce **20–100 kg/s**. This is influenced by reservoir permeability, pressure, and well design.  
+
+2. **Specific heat capacity (c<sub>p</sub>):**  
+   For liquid water, ~4180 J/kg·K at near-surface conditions. Slight variations occur at higher pressures and temperatures.  
+
+3. **Production temperature (T<sub>prod</sub>):**  
+   Reservoirs can vary widely:  
+   - Low enthalpy: 50–90 °C  
+   - Medium enthalpy: 90–150 °C  
+   - High enthalpy: 150–300+ °C  
+
+4. **Injection temperature (T<sub>inj</sub>):**  
+   Reinjection typically occurs at **40–60 °C**, balancing heat extraction efficiency and reservoir sustainability.  
 
 ---
 
 # 05. Example Calculation <a name="example-main"></a>
 
-Scenario:
+Let’s assume:  
 
 - ṁ = 30 kg/s  
 - c<sub>p</sub> = 4180 J/kg·K  
 - T<sub>prod</sub> = 120 °C  
 - T<sub>inj</sub> = 60 °C  
 
-Thermal power:
+**Step 1: Thermal power (Q):**
 
 <div style="text-align:center;">
-Q = ṁ · c<sub>p</sub> · (T<sub>prod</sub> - T<sub>inj</sub>)  
-Q = 30 · 4180 · (120 - 60)  
-Q ≈ 7.524 × 10<sup>6</sup> W ≈ 7.5 MW<sub>th</sub>
+Q = 30 · 4180 · (120 - 60) = 7.524 × 10<sup>6</sup> W ≈ 7.5 MW<sub>th</sub>
 </div>
+
+Thus, the geothermal well delivers **7.5 MW thermal power** continuously.  
 
 ---
 
 # 06. Conversion to Electricity <a name="conversion-main"></a>
 
-Assuming ORC efficiency η = 12%:
+Assume **ORC efficiency = 12%**.  
 
 <div style="text-align:center;">
-P<sub>el</sub> = η · Q  
-P<sub>el</sub> = 0.12 · 7.5  
-P<sub>el</sub> ≈ 0.9 MW<sub>el</sub>
+P<sub>el</sub> = 0.12 · 7.5 = 0.9 MW<sub>el</sub>
 </div>
+
+So, the power plant produces **0.9 MW electricity**.  
 
 ---
 
 # 07. Annual Energy Yield <a name="annual-main"></a>
 
+Over one year:  
+
 <div style="text-align:center;">
-E = P<sub>el</sub> · 8760  
-E = 0.9 · 8760  
-E ≈ 7884 MWh/year
+E = 0.9 · 8760 = 7884 MWh/year
 </div>
 
-Enough for ~700 Canadian households (~11 MWh/year each).
+This is enough to power roughly **700 Canadian households** annually, assuming average use of 11 MWh/year.  
 
 ---
 
 # 08. Discussion of Results <a name="discussion-main"></a>
 
-- **Temperature difference matters**  
-- **Flow rate matters**  
-- **Efficiency is limited**  
-- **Scalability possible with multiple wells**  
+Key insights:  
+
+- **ΔT dominates output:** Doubling ΔT roughly doubles thermal output.  
+- **Flow rate scaling is linear:** If ṁ doubles, Q doubles.  
+- **Efficiency bottleneck:** Conversion losses limit electrical output.  
+- **System design trade-offs:** Higher reinjection temperatures protect the reservoir but reduce power output.  
 
 ---
 
 # 09. Assumptions and Limitations <a name="assumptions-main"></a>
 
-- Working fluid = water, no phase change  
-- No pipe or pump losses considered  
-- Efficiency fixed at 12%  
-- Reservoir sustainability not considered  
+- No heat losses in pipes or pumps.  
+- Constant fluid properties (c<sub>p</sub> = 4180 J/kg·K).  
+- Efficiency fixed at 12%.  
+- Long-term reservoir cooling not considered.  
+- Reinjection assumed at fixed temperature regardless of seasonal changes.  
 
 ---
 
 # 10. Real-World Applications <a name="applications-main"></a>
 
-- **Iceland:** ~90% households geothermal heating  
-- **USA (The Geysers):** >1500 MW  
-- **Kenya (Rift Valley):** >900 MW  
-- **Turkey:** Rapid ORC plant expansion  
+- **Iceland:** Over 90% of homes heated with geothermal.  
+- **USA – The Geysers, California:** Largest geothermal field, >1500 MW.  
+- **Kenya:** Rift Valley geothermal development surpassing 900 MW.  
+- **Turkey:** Rapid ORC expansion (>1600 MW installed capacity by 2023).  
+
+These examples demonstrate geothermal’s scalability and adaptability.  
 
 ---
 
 # 11. Future Directions <a name="future-main"></a>
 
-- **EGS:** Fracturing rocks for deeper heat  
-- **Hybrid systems:** Geothermal + solar/biomass  
-- **Carbon capture synergy**  
-- **Direct-use expansion**  
+- **Enhanced Geothermal Systems (EGS):** Unlocking heat in impermeable rock via hydraulic stimulation.  
+- **Hybrid plants:** Geothermal + solar thermal or biomass to raise efficiency.  
+- **Carbon storage integration:** Combining geothermal reservoirs with CO₂ sequestration.  
+- **Direct-use growth:** Agriculture, aquaculture, and industrial applications.  
 
 ---
 
 # 12. Conclusion <a name="conclusion-main"></a>
 
-- Reliable base-load power  
-- Modest systems: ~8 GWh/year  
-- Wider adoption reduces fossil fuel reliance and stabilizes grids  
+- Geothermal is a **continuous renewable** energy source.  
+- Even modest systems (~30 kg/s, ΔT = 60 °C) yield nearly **8 GWh annually**.  
+- Wider adoption could reduce fossil fuel reliance and stabilize renewable-heavy grids.  
 
 ---
 
 # 13. Python Implementation <a name="python-main"></a>
 
-Below is a simplified prototype implementation using **Stable Baselines3 (PPO)**:
+Below is a Python script for geothermal power calculations, followed by a prototype **reinforcement learning (RL) environment** for well control optimization.  
+
+### A. Geothermal Calculation Functions
 
 ```
 import gym
 import numpy as np
 from stable_baselines3 import PPO
 
-# Custom geothermal environment
+# --- Custom geothermal environment ---
 class GeothermalEnv(gym.Env):
     def __init__(self):
         super(GeothermalEnv, self).__init__()
+        # Action: flow control factor [0,1]
         self.action_space = gym.spaces.Box(low=0, high=1, shape=(1,), dtype=np.float32)
+        # Observation: [T_prod, T_inj, demand]
         self.observation_space = gym.spaces.Box(low=0, high=200, shape=(3,), dtype=np.float32)
-        self.state = np.array([100.0, 60.0, 50.0])  # [T_prod, T_inj, demand]
+        self.state = None
 
     def reset(self):
-        self.state = np.array([100.0, 60.0, 50.0])
+        self.state = np.array([120.0, 60.0, 7.5e6])  # [T_prod °C, T_inj °C, demand W]
         return self.state
 
     def step(self, action):
         T_prod, T_inj, demand = self.state
-        flow_factor = action[0]
+        flow_factor = float(action[0])  # 0–1 scaling
         delta_T = T_prod - T_inj
-        Q = flow_factor * 4180 * delta_T  # simplified thermal output
+        # Thermal output Q = ṁ * c_p * ΔT, assume ṁ=30 kg/s
+        Q = flow_factor * 30 * 4180 * delta_T
         reward = -abs(Q - demand)  # penalize mismatch with demand
-        self.state = np.array([T_prod, T_inj, demand])  # static for demo
         done = False
-        return self.state, reward, done, {}
+        info = {"Q_output": Q, "Demand": demand}
+        return self.state, reward, done, info
 
-# Train RL agent
+# --- Train PPO agent ---
 env = GeothermalEnv()
-model = PPO("MlpPolicy", env, verbose=1)
+model = PPO("MlpPolicy", env, verbose=0)
 model.learn(total_timesteps=50_000)  # train for 50,000 steps
+
+# Test trained agent
+obs = env.reset()
+print("Initial State:", obs)
+
+for step in range(10):
+    action, _ = model.predict(obs)
+    obs, reward, done, info = env.step(action)
+    print(f"Step {step+1}:")
+    print(f"  Action (flow factor): {action[0]:.3f}")
+    print(f"  Thermal Power Output (Q): {info['Q_output'] / 1e6:.2f} MW_th")
+    print(f"  Demand: {info['Demand'] / 1e6:.2f} MW_th")
+    print(f"  Reward: {reward:.2f}")
 ```
+
 
 
