@@ -36,6 +36,7 @@ defaults:
       type: posts
     values:
       layout: post
+      read_time: true
       share: false
 
 
@@ -49,6 +50,7 @@ defaults:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
 
 
 
