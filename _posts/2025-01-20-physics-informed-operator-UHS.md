@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Physics-Informed Fourier Neural Operators for Predicting Hydrogen Breakthrough in Porous Medias"
-image: /assets/img/hydrogen_storage.png
+image: /assets/img/posts/hydrogen_storage.png
 tags: [Machine Learning, Physics-Informed ML, Fourier Neural Operator, Hydrogen Storage, Porous Media, Clean Energy]
 ---
 In this project, we developed a physics-informed Fourier Neural Operator (FNO) model to predict hydrogen breakthrough time in underground porous reservoirs. By generating synthetic permeability datasets and incorporating two-phase flow physics with capillary pressure effects, the model learns the complex mapping from heterogeneous permeability fields to breakthrough time. This approach enables rapid, reliable predictions without running computationally expensive reservoir simulations, supporting faster site screening, operational planning, and performance evaluation for underground hydrogen storage systems.
