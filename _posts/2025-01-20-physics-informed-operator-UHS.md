@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Physics-Informed Fourier Neural Operators for Predicting Hydrogen Breakthrough in Porous Medias"
+title: "Physics-Informed Fourier Neural Operators for Predicting Hydrogen Breakthrough in Porous Media"
 image: /assets/img/posts/hydrogen_storage.png
 tags: [Machine Learning, Physics-Informed ML, Fourier Neural Operator, Hydrogen Storage, Porous Media, Clean Energy]
 ---
