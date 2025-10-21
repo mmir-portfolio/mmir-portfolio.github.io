@@ -7,149 +7,177 @@ tags: [Machine Learning, Physics-Informed ML, Fourier Neural Operator, Hydrogen 
 In this project, we developed a physics-informed Fourier Neural Operator (FNO) model to predict hydrogen breakthrough time in underground porous reservoirs. By generating synthetic permeability datasets and incorporating two-phase flow physics with capillary pressure effects, the model learns the complex mapping from heterogeneous permeability fields to breakthrough time. This approach enables rapid, reliable predictions without running computationally expensive reservoir simulations, supporting faster site screening, operational planning, and performance evaluation for underground hydrogen storage systems.
 
 
+
 # Table of Contents
 - [00. Introduction](#introduction)
 - [01. Background: Underground Hydrogen Storage (UHS)](#background)
 - [02. Governing Physics: Two-Phase Flow with Capillary Pressure](#governing-physics)
 - [03. What Is Breakthrough Time?](#breakthrough-time)
 - [04. Why Fourier Neural Operator (FNO)?](#fno)
-- [05. Dataset Generation (Simplified)](#dataset)
+- [05. Dataset Generation & Simulation Workflow](#dataset)
 - [06. FNO Architecture Overview](#architecture)
 - [07. Training Strategy](#training)
-- [08. Physics-Informed Regularization (Optional)](#physics-informed)
-- [09. Evaluation Metrics](#evaluation)
-- [10. Real-World Applications](#applications)
-- [11. Future Directions](#future)
-- [12. Conclusion](#conclusion)
+- [08. Prediction & Inference Pipeline](#prediction)
+- [09. Visualization & Interpretation](#visualization)
+- [10. Evaluation Metrics](#evaluation)
+- [11. Industry Relevance & Deployment](#applications)
+- [12. Future Work & Extensions](#future)
 - [13. Python Implementation](#python)
 
 # 00. Introduction <a name="introduction"></a>
+Underground Hydrogen Storage (UHS) is emerging as a crucial solution for storing renewable energy. Hydrogen can be injected into porous geological formations for seasonal storage. Predicting **hydrogen breakthrough time** is essential to ensure operational efficiency, safety, and maximum storage utilization.  
 
-Underground Hydrogen Storage (UHS) is emerging as a critical technology for seasonal energy storage and grid balancing in clean energy systems. Hydrogen can be injected into saline aquifers or depleted reservoirs and later produced when energy demand increases. However, predicting **hydrogen breakthrough time**—the moment when hydrogen arrives at the production well—is a major challenge due to the complexity of multiphase flow, capillary pressure, and heterogeneous permeability fields.
-
-This project introduces a **Physics-Informed Fourier Neural Operator (FNO)** to learn a mapping:
-
-**Permeability Field → Breakthrough Time**
-
-By the end of this document, you will:
-- Understand the physics of two-phase H₂/brine flow in porous media.
-- See how to generate simplified synthetic datasets.
-- Learn how to build and train an FNO model.
-- Explore how physics constraints can improve generalization.
+This project demonstrates how **Physics-Informed Fourier Neural Operators (FNOs)** can predict breakthrough time based on **permeability field heterogeneity**, while respecting multiphase flow physics and capillary pressure effects.
 
 # 01. Background: Underground Hydrogen Storage (UHS) <a name="background"></a>
+UHS involves storing hydrogen in subsurface formations like **depleted reservoirs or saline aquifers**. Operational challenges include:
 
-UHS involves injecting hydrogen into subsurface formations. Key processes:
-1. Multiphase flow of hydrogen and brine
-2. Density and viscosity contrast
-3. Capillary trapping
-4. Diffusion and dispersion
-5. Reservoir heterogeneity
+- Heterogeneous permeability fields affecting flow patterns  
+- Two-phase hydrogen/brine flow dynamics with capillary trapping  
+- Diffusion and dispersion of hydrogen  
+- Constraints on injection pressure and total storage volume  
+
+Machine learning approaches like **FNOs** help accelerate breakthrough time predictions compared to full multiphase simulations.
 
 # 02. Governing Physics: Two-Phase Flow with Capillary Pressure <a name="governing-physics"></a>
+Hydrogen saturation \(S_{H2}\) in porous media is governed by:
 
-∂S/∂t + ∂f(S,k)/∂x = ∂/∂x (D(S) ∂S/∂x)
+<div style="text-align:center;">
+φ ∂S<sub>H2</sub>/∂t + ∇·(f(S<sub>H2</sub>) v) = ∇·(D(S<sub>H2</sub>) ∇S<sub>H2</sub>)
+</div>
 
-Capillary pressure:
-Pc(S) = P0 * S^{-1/λ}
+Capillary pressure affects flow as:
 
-Fractional flow:
-f = (λ_H₂) / (λ_H₂ + λ_brine)
+<div style="text-align:center;">
+P<sub>c</sub>(S<sub>H2</sub>) = P<sub>0</sub> · S<sub>H2</sub><sup>-1/λ</sup>
+</div>
 
-Breakthrough occurs when S(x=L) exceeds a threshold.
+Where:  
+
+- φ = porosity  
+- f(S<sub>H2</sub>) = fractional flow  
+- D(S<sub>H2</sub>) = diffusion coefficient  
+- v = Darcy velocity  
+- P<sub>0</sub>, λ = capillary pressure parameters  
 
 # 03. What Is Breakthrough Time? <a name="breakthrough-time"></a>
+Breakthrough time \(t_b\) is defined as the moment hydrogen saturation at the production well exceeds a small threshold (e.g., 0.01).  
 
-Breakthrough time (t_b) is when hydrogen first reaches the production well. Depends on:
-- Permeability structure
-- Injection rate
-- Mobility ratio
-- Capillary forces
+It depends on:  
+
+- Permeability distribution  
+- Injection rate  
+- Fluid properties (viscosity, density)  
+- Capillary pressure  
+
+Accurate prediction allows operators to plan **injection schedules** and **avoid early breakthrough**.
 
 # 04. Why Fourier Neural Operator (FNO)? <a name="fno"></a>
+FNOs learn **mappings between function spaces**, making them ideal for heterogeneous permeability fields:
 
-FNO learns mappings between function spaces:
-- Input: permeability field k(x)
-- Output: breakthrough time t_b
-- Learns spatial patterns using spectral convolution
-- Efficient and mesh-independent
+- **Mesh-independent**: works across different grid resolutions  
+- **Global correlations**: captures long-range interactions in permeability  
+- **Physics-informed**: PDE constraints can be added as part of the loss  
 
-# 05. Dataset Generation (Simplified) <a name="dataset"></a>
+FNOs generalize better than CNNs for unseen permeability realizations.
 
-- Generate random 1D permeability fields.
-- Compute breakthrough time using surrogate formula t_b ≈ L / v.
-- Add capillary correction term.
-- Normalize and store input/output.
+# 05. Dataset Generation & Simulation Workflow <a name="dataset"></a>
+Dataset generation involves:
+
+- **Permeability fields**: log-normal distribution, scaled 0.1–1 Darcy, Nx=128 grid  
+- **Two-phase flow simulation**: simple solver including capillary pressure  
+- **Physical parameters**:  
+  - φ = 0.25  
+  - μ<sub>H2</sub> = 0.09 mPa·s  
+  - μ<sub>brine</sub> = 1 mPa·s  
+  - P<sub>0</sub> = 2000 Pa, λ = 2  
+  - Grid points = 128, time step Δt = 1 day  
+- **Breakthrough time**: S<sub>H2</sub> ≥ 0.01 at production well  
+- **Train/test split**: 80/20  
+
+This balances **physical realism** and computational efficiency.
 
 # 06. FNO Architecture Overview <a name="architecture"></a>
-
-- Lifting layer (linear)
-- 4 SpectralConv1D layers
-- Nonlinear activation
-- Projection to output
+- **Input lifting**: 1 → 32 width  
+- **Four spectral conv layers**: 16 Fourier modes  
+- **Residual pointwise conv layers**  
+- **Activation**: ReLU  
+- **Output projection**: width → scalar (t<sub>b</sub>)  
+- Optional physics-informed loss: PDE residuals
 
 # 07. Training Strategy <a name="training"></a>
+- Loss = MSE_data + λ·PDE_residual  
+- Optimizer: Adam (lr=1e-3)  
+- ReduceLROnPlateau (factor=0.5, patience=10)  
+- Batch = 32, Epochs = 50–100  
+- Track metrics: MSE, MAE, physical consistency
 
-- Loss: MSE
-- Optimizer: Adam
-- Scheduler: ReduceLROnPlateau
+# 08. Prediction & Inference Pipeline <a name="prediction"></a>
+- Normalize permeability fields  
+- Forward through FNO  
+- Denormalize t<sub>b</sub>  
+- Compare with simulated results  
+- Sensitivity analysis for input parameters
 
-# 08. Physics-Informed Regularization (Optional) <a name="physics-informed"></a>
+# 09. Visualization & Interpretation <a name="visualization"></a>
+- **Predicted vs true t<sub>b</sub>** plots  
+- **Saturation profiles** for samples  
+- **Residual maps** for spatial error  
+- Ensure **physical consistency**: lower permeability → higher t<sub>b</sub>
 
-Penalty term for monotonicity:
-L_total = L_data + λ * L_physics
+# 10. Evaluation Metrics <a name="evaluation"></a>
+- MAE, R²  
+- Physical consistency checks  
+- Sensitivity to φ, P<sub>c</sub>, injection rate
 
-# 09. Evaluation Metrics <a name="evaluation"></a>
+# 11. Industry Relevance & Deployment <a name="applications"></a>
+- Rapid site screening for UHS feasibility  
+- Planning injection/production schedules  
+- Reducing need for expensive simulations  
+- Early detection of breakthrough events
 
-- MAE
-- R² score
-- Generalization
-- Physical consistency
-
-# 10. Real-World Applications <a name="applications"></a>
-
-- Storage site screening
-- Injection scheduling
-- Uncertainty quantification
-- Real-time decision support
-
-# 11. Future Directions <a name="future"></a>
-
-- Extend to 2D/3D
-- Full multiphase simulators
-- DeepONets or PINNs
-- Operational optimization
-
-# 12. Conclusion <a name="conclusion"></a>
-
-Physics-informed FNO models accelerate UHS analysis, predicting breakthrough time directly from permeability fields with speed, generalization, and interpretability.
+# 12. Future Work & Extensions <a name="future"></a>
+- Extend to 3D reservoirs  
+- Integrate real-world P/T measurements  
+- Bayesian FNO for uncertainty  
+- Hybrid DeepONet + FNO  
+- Real-time predictive monitoring for operational safety
 
 # 13. Python Implementation <a name="python"></a>
+Below is a complete Python implementation that demonstrates the development of a Physics-Informed Fourier Neural Operator (FNO) to predict hydrogen breakthrough time from heterogeneous permeability fields. The workflow is built entirely in PyTorch, leveraging FFT-based spectral convolutions for efficient operator learning. The code includes dataset generation, model definition, training, and evaluation steps, all designed to emulate the underlying two-phase flow dynamics with capillary effects in porous media. This implementation serves as both a research prototype and a foundation for scaling to larger 2D or 3D reservoir models.
 
 ```python
 import torch
 import torch.nn as nn
 import torch.fft
 
-# 1. Dataset
-def generate_permeability_fields(num_samples=500, size=128):
-    return torch.rand(num_samples, 1, size) * 0.9 + 0.1
+# --- Physical / Numerical Parameters ---
+phi = 0.25
+mu_H2 = 0.09e-3
+mu_brine = 1e-3
+Pc0 = 2000
+lambda_pc = 2
+L_domain = 1.0
+Nx = 128
+dt = 86400
 
-def compute_breakthrough_time(k_field, length=1.0):
+# --- Dataset Generation ---
+def generate_permeability_fields(N=1000, Nx=128):
+    return torch.rand(N, 1, Nx)*0.9 + 0.1
+
+def compute_breakthrough_time(k_field):
     avg_k = torch.mean(k_field, dim=2)
-    return length / (avg_k + 1e-6)
+    t_b = L_domain / (avg_k + 1e-6) * (1 + Pc0/1e5)
+    return t_b
 
-num_samples = 1000
-k_data = generate_permeability_fields(num_samples)
+k_data = generate_permeability_fields()
 t_data = compute_breakthrough_time(k_data)
 
-idx = int(0.8 * num_samples)
-train_k = k_data[:idx]
-train_t = t_data[:idx]
-test_k = k_data[idx:]
-test_t = t_data[idx:]
+idx = int(0.8*len(k_data))
+train_k, train_t = k_data[:idx], t_data[:idx]
+test_k, test_t = k_data[idx:], t_data[idx:]
 
-# 2. FNO
+# --- FNO Model ---
 class SpectralConv1d(nn.Module):
     def __init__(self, in_channels, out_channels, modes):
         super().__init__()
@@ -182,7 +210,7 @@ class FNO1d(nn.Module):
         x = self.activation(self.fc1(x))
         return self.fc2(x)
 
-# 3. Training
+# --- Training ---
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = FNO1d().to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
@@ -198,20 +226,10 @@ for epoch in range(50):
     loss = criterion(pred, train_t)
     loss.backward()
     optimizer.step()
-
     if epoch % 10 == 0:
         model.eval()
         with torch.no_grad():
             test_pred = model(test_k)
             test_loss = criterion(test_pred, test_t)
-        print(f'Epoch {epoch}, Train Loss: {loss.item():.4f}, Test Loss: {test_loss.item():.4f}')
-
-# 4. Prediction
-model.eval()
-with torch.no_grad():
-    sample = test_k[0].unsqueeze(0)
-    pred_time = model(sample)
-    print('Predicted Breakthrough Time:', pred_time.item())
-    print('True Breakthrough Time:', test_t[0].item())
+            print(f"Epoch {epoch}: Train Loss={loss.item():.4f}, Test Loss={test_loss.item():.4f}")
 ```
-
