@@ -40,7 +40,7 @@ UHS involves storing hydrogen in subsurface formations like **depleted reservoir
 Machine learning approaches like **FNOs** help accelerate breakthrough time predictions compared to full multiphase simulations.
 
 # 02. Governing Physics: Two-Phase Flow with Capillary Pressure <a name="governing-physics"></a>
-Hydrogen saturation (S<sub>H2</sub) in porous media is governed by:
+Hydrogen saturation (S<sub>H2</sub>) in porous media is governed by:
 
 <div style="text-align:center;">
 φ ∂S<sub>H2</sub>/∂t + ∇·(f(S<sub>H2</sub>) v) = ∇·(D(S<sub>H2</sub>) ∇S<sub>H2</sub>)
