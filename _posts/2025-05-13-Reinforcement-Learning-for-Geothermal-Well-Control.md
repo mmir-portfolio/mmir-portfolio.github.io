@@ -208,7 +208,7 @@ Below is a Python script for geothermal power calculations, followed by a protot
 
 ### A. Geothermal Calculation Functions
 
-```
+```python
 import gym
 import numpy as np
 from stable_baselines3 import PPO
@@ -256,6 +256,7 @@ for step in range(10):
     print(f"  Demand: {info['Demand'] / 1e6:.2f} MW_th")
     print(f"  Reward: {reward:.2f}")
 ```
+
 
 
 
