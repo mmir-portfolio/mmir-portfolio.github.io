@@ -165,10 +165,132 @@ dt = 86400
 def generate_permeability_fields(N=1000, Nx=128):
     return torch.rand(N, 1, Nx)*0.9 + 0.1
 
-def compute_breakthrough_time(k_field):
-    avg_k = torch.mean(k_field, dim=2)
-    t_b = L_domain / (avg_k + 1e-6) * (1 + Pc0/1e5)
+def compute_breakthrough_time(k_field, phi=0.25, mu_H2=0.09e-3, 
+                              Pc0=2000, L=L_domain, dP=1e5):
+    """
+    Approximate hydrogen breakthrough time based on Darcy velocity.
+    k_field: [batch, 1, Nx] or [batch, Nx] permeability tensor
+    phi: porosity
+    mu_H2: hydrogen viscosity (Pa·s)
+    Pc0: base capillary pressure (Pa)
+    L: domain length (m)
+    dP: applied pressure drop (Pa)
+    """
+    # Mean permeability across domain
+    avg_k = torch.mean(k_field, dim=-1)  # averages over spatial dimension
+
+    # Darcy velocity (m/s)
+    v = avg_k * dP / (mu_H2 * L)
+
+    # Capillary correction (reduces velocity)
+    capillary_factor = 1.0 / (1.0 + Pc0 / dP)
+
+    # Approximate breakthrough time (s)
+    t_b = (phi * L) / (v * capillary_factor + 1e-12)
+
+    # Normalize (optional)
+    #t_b = t_b / t_b.max()
+
     return t_b
+
+
+def two_phase_solver(k, phi, mu_H2, mu_brine, Pc0, lambda_pc, L, Nx, dt):
+    """
+    Simplified 1D two-phase flow solver for H2 and brine displacement.
+    Uses an explicit finite-difference formulation to approximate 
+    saturation evolution and detect hydrogen breakthrough times.
+
+    Parameters
+    ----------
+    k : array_like
+        Permeability field [m^2], length Nx
+    phi : array_like
+        Porosity field, length Nx
+    mu_H2, mu_brine : float
+        Viscosities of hydrogen and brine [Pa.s]
+    Pc0, lambda_pc : float
+        Capillary pressure parameters
+    L : float
+        Domain length [m]
+    Nx : int
+        Number of grid cells
+    dt : float
+        Time step [s]
+
+    Returns
+    -------
+    t_break_norm : ndarray
+        Normalized breakthrough times (0–1) for each cell.
+    """
+
+    # --- Spatial discretization
+    dx = L / Nx
+    x = np.linspace(0, L, Nx)
+
+    # --- Initialization
+    Sw = np.ones(Nx)                 # Brine saturation (initially full of brine)
+    Sw[0] = 0.0                      # Injector end (pure H2)
+    t = 0.0
+
+    # --- Output arrays
+    t_break = np.zeros(Nx)
+    breakthrough_mask = np.zeros(Nx, dtype=bool)
+    breakthrough_threshold = 0.1     # Breakthrough when Sw drops below 0.1
+
+    # --- Ensure arrays match Nx
+    k = np.broadcast_to(k, Nx)
+    phi = np.broadcast_to(phi, Nx)
+
+    # --- Relative permeabilities (Corey-type)
+    def kr_H2(S):
+        return np.clip(S, 0, 1) ** 2
+
+    def kr_brine(S):
+        return np.clip(1 - S, 0, 1) ** 2
+
+    # --- Capillary pressure
+    def Pc(S):
+        return Pc0 * (np.clip(1 - S, 1e-6, 1) ** (-1 / lambda_pc) - 1)
+
+    # --- Time stepping loop
+    max_steps = 2000
+    for step in range(max_steps):
+        Sw_old = Sw.copy()
+
+        # Mobilities
+        lam_H2 = kr_H2(1 - Sw) / mu_H2
+        lam_brine = kr_brine(Sw) / mu_brine
+        lam_t = lam_H2 + lam_brine
+
+        # Fractional flow
+        fw = lam_H2 / (lam_t + 1e-12)
+
+        # Capillary pressure gradient (finite difference)
+        dPc_dx = np.gradient(Pc(Sw), dx)
+
+        # Flux term (simplified 1D form)
+        q = -k * lam_t * dPc_dx
+
+        # Saturation update
+        dSw_dt = -np.gradient(fw * q, dx) / phi
+        Sw += dSw_dt * dt
+        Sw = np.clip(Sw, 0, 1)
+
+        t += dt
+
+        # Detect new breakthrough cells
+        newly_broken = (Sw < breakthrough_threshold) & (~breakthrough_mask)
+        t_break[newly_broken] = t
+        breakthrough_mask |= newly_broken
+
+        # Stop if all cells have broken through
+        if breakthrough_mask.all():
+            break
+
+    # --- Normalize breakthrough times
+    # t_break_norm = t_break / t_break.max() if t_break.max() > 0 else t_break
+    return t_break
+
 
 k_data = generate_permeability_fields()
 t_data = compute_breakthrough_time(k_data)
@@ -178,58 +300,120 @@ train_k, train_t = k_data[:idx], t_data[:idx]
 test_k, test_t = k_data[idx:], t_data[idx:]
 
 # --- FNO Model ---
-class SpectralConv1d(nn.Module):
+class SpectralConv1dSafe(nn.Module):
+    """
+    Robust spectral conv for FNO:
+    - weights stored as real tensors with last dim = 2 (real, imag)
+    - correct einsum ordering: 'bcm, com -> bom'
+    - adapts to available Fourier modes
+    """
     def __init__(self, in_channels, out_channels, modes):
         super().__init__()
-        self.weights = nn.Parameter(torch.randn(in_channels, out_channels, modes, dtype=torch.cfloat))
+        self.in_channels = in_channels
+        self.out_channels = out_channels
+        self.modes = modes  # desired number of modes
+
+        # weights: (in_ch, out_ch, modes, 2) where last dim = [real, imag]
+        self.weights = nn.Parameter(torch.randn(in_channels, out_channels, modes, 2) * 0.01)
+
     def forward(self, x):
-        x_ft = torch.fft.rfft(x)
-        out_ft = torch.zeros_like(x_ft)
-        out_ft[:, :, :self.weights.shape[2]] = torch.einsum('bci,cio->bco', x_ft[:, :, :self.weights.shape[2]], self.weights)
-        x = torch.fft.irfft(out_ft, n=x.size(-1))
+        """
+        x: (B, in_channels, N) real tensor
+        returns: (B, out_channels, N) real tensor
+        """
+        B, C, N = x.shape
+        x_ft = torch.fft.rfft(x, dim=-1)       # (B, C, N_ft), complex
+        N_ft = x_ft.shape[-1]
+        n_modes = min(self.modes, N_ft)
+
+        # prepare output real/imag parts
+        out_r = torch.zeros(B, self.out_channels, N_ft, device=x.device, dtype=x.dtype)
+        out_i = torch.zeros(B, self.out_channels, N_ft, device=x.device, dtype=x.dtype)
+
+        # input real/imag (B, C, N_ft)
+        xr = x_ft.real[..., :n_modes]
+        xi = x_ft.imag[..., :n_modes]
+
+        # weights real/imag shaped (C, O, n_modes)
+        w = self.weights[:, :, :n_modes, :]  # (C, O, n_modes, 2)
+        w_r = w[..., 0]  # (C, O, n_modes)
+        w_i = w[..., 1]  # (C, O, n_modes)
+
+        # Correct einsum ordering:
+        # xr: (B, C, m) labeled 'bcm'
+        # w_r: (C, O, m) labeled 'com'
+        # -> result: (B, O, m) labeled 'bom'
+        term_rr = torch.einsum('bcm,com->bom', xr, w_r)
+        term_ii = torch.einsum('bcm,com->bom', xi, w_i)
+        term_ri = torch.einsum('bcm,com->bom', xr, w_i)
+        term_ir = torch.einsum('bcm,com->bom', xi, w_r)
+
+        out_r[..., :n_modes] = term_rr - term_ii
+        out_i[..., :n_modes] = term_ri + term_ir
+
+        # pack complex spectrum and inverse FFT
+        out_ft = torch.complex(out_r, out_i)  # (B, out, N_ft)
+        x_out = torch.fft.irfft(out_ft, n=N, dim=-1)  # (B, out, N)
+        return x_out
+
+
+# --- Now we define full model using the safe FNO layer ---
+class FNO1DModel(nn.Module):
+    def __init__(self, in_channels=1, width=32, modes=16, out_channels=1, n_layers=4):
+        super().__init__()
+        self.fc_in = nn.Conv1d(in_channels, width, 1)
+        self.layers = nn.ModuleList([FNO1DLayerSafe(width, width, modes) for _ in range(n_layers)])
+        self.fc_out = nn.Sequential(
+            nn.Conv1d(width, 32, 1),
+            nn.GELU(),
+            nn.Conv1d(32, out_channels, 1)
+        )
+
+    def forward(self, x):
+        # x: (B, in_channels, N)
+        x = self.fc_in(x)
+        for layer in self.layers:
+            x = layer(x)
+        x = self.fc_out(x)
         return x
 
-class FNO1d(nn.Module):
-    def __init__(self, modes=16, width=32):
-        super().__init__()
-        self.fc0 = nn.Linear(1, width)
-        self.conv_layers = nn.ModuleList([SpectralConv1d(width, width, modes) for _ in range(4)])
-        self.w_layers = nn.ModuleList([nn.Conv1d(width, width, 1) for _ in range(4)])
-        self.fc1 = nn.Linear(width, 64)
-        self.fc2 = nn.Linear(64, 1)
-        self.activation = nn.ReLU()
-    def forward(self, x):
-        x = x.permute(0,2,1)
-        x = self.fc0(x)
-        x = x.permute(0,2,1)
-        for conv, w in zip(self.conv_layers, self.w_layers):
-            x1 = conv(x)
-            x2 = w(x)
-            x = self.activation(x1 + x2)
-        x = x.mean(dim=2)
-        x = self.activation(self.fc1(x))
-        return self.fc2(x)
 
-# --- Training ---
+# --- Device setup ---
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = FNO1d().to(device)
+print("Using device:", device)
+
+# --- Model, optimizer, loss ---
+model = FNO1DModel(in_channels=1, out_channels=1, modes=16).to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, factor=0.5, patience=5, verbose=True)
 criterion = nn.MSELoss()
 
+# --- Move data to device ---
 train_k, train_t = train_k.to(device), train_t.to(device)
 test_k, test_t = test_k.to(device), test_t.to(device)
 
-for epoch in range(50):
+# --- Training loop ---
+n_epochs = 15
+for epoch in range(1, n_epochs + 1):
     model.train()
     optimizer.zero_grad()
+
     pred = model(train_k)
     loss = criterion(pred, train_t)
     loss.backward()
     optimizer.step()
-    if epoch % 10 == 0:
-        model.eval()
-        with torch.no_grad():
-            test_pred = model(test_k)
-            test_loss = criterion(test_pred, test_t)
-            print(f"Epoch {epoch}: Train Loss={loss.item():.4f}, Test Loss={test_loss.item():.4f}")
+
+    # Validation
+    model.eval()
+    with torch.no_grad():
+        test_pred = model(test_k)
+        test_loss = criterion(test_pred, test_t)
+
+    scheduler.step(test_loss)
+
+    if epoch % 5 == 0 or epoch == 1:
+        print(f"Epoch {epoch:03d} | Train Loss = {loss.item():.6f} | Test Loss = {test_loss.item():.6f}")
+
+print(" Training completed successfully.")
+
 ```
