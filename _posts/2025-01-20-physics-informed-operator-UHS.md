@@ -219,8 +219,8 @@ def two_phase_solver(k, phi, mu_H2, mu_brine, Pc0, lambda_pc, L, Nx, dt):
 
     Returns
     -------
-    t_break_norm : ndarray
-        Normalized breakthrough times (0–1) for each cell.
+    t_break: ndarray
+        Breakthrough times (0–1) for each cell.
     """
 
     # --- Spatial discretization
