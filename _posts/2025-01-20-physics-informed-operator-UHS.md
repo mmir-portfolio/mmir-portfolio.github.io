@@ -15,14 +15,9 @@ In this project, we developed a physics-informed Fourier Neural Operator (FNO) m
 - [03. What Is Breakthrough Time?](#breakthrough-time)
 - [04. Why Fourier Neural Operator (FNO)?](#fno)
 - [05. Dataset Generation & Simulation Workflow](#dataset)
-- [06. FNO Architecture Overview](#architecture)
-- [07. Training Strategy](#training)
-- [08. Prediction & Inference Pipeline](#prediction)
-- [09. Visualization & Interpretation](#visualization)
-- [10. Evaluation Metrics](#evaluation)
-- [11. Industry Relevance & Deployment](#applications)
-- [12. Future Work & Extensions](#future)
-- [13. Python Implementation](#python)
+- [06. Industry Relevance & Deployment](#applications)
+- [07. Future Work & Extensions](#future)
+- [08. Python Implementation](#python)
 
 # 00. Introduction <a name="introduction"></a>
 Underground Hydrogen Storage (UHS) is emerging as a crucial solution for storing renewable energy. Hydrogen can be injected into porous geological formations for seasonal storage. Predicting **hydrogen breakthrough time** is essential to ensure operational efficiency, safety, and maximum storage utilization.  
@@ -97,53 +92,20 @@ Dataset generation involves:
 
 This balances **physical realism** and computational efficiency.
 
-# 06. FNO Architecture Overview <a name="architecture"></a>
-- **Input lifting**: 1 → 32 width  
-- **Four spectral conv layers**: 16 Fourier modes  
-- **Residual pointwise conv layers**  
-- **Activation**: ReLU  
-- **Output projection**: width → scalar (t<sub>b</sub>)  
-- Optional physics-informed loss: PDE residuals
-
-# 07. Training Strategy <a name="training"></a>
-- Loss = MSE_data + λ·PDE_residual  
-- Optimizer: Adam (lr=1e-3)  
-- ReduceLROnPlateau (factor=0.5, patience=10)  
-- Batch = 32, Epochs = 50–100  
-- Track metrics: MSE, MAE, physical consistency
-
-# 08. Prediction & Inference Pipeline <a name="prediction"></a>
-- Normalize permeability fields  
-- Forward through FNO  
-- Denormalize t<sub>b</sub>  
-- Compare with simulated results  
-- Sensitivity analysis for input parameters
-
-# 09. Visualization & Interpretation <a name="visualization"></a>
-- **Predicted vs true t<sub>b</sub>** plots  
-- **Saturation profiles** for samples  
-- **Residual maps** for spatial error  
-- Ensure **physical consistency**: lower permeability → higher t<sub>b</sub>
-
-# 10. Evaluation Metrics <a name="evaluation"></a>
-- MAE, R²  
-- Physical consistency checks  
-- Sensitivity to φ, P<sub>c</sub>, injection rate
-
-# 11. Industry Relevance & Deployment <a name="applications"></a>
+# 06. Industry Relevance & Deployment <a name="applications"></a>
 - Rapid site screening for UHS feasibility  
 - Planning injection/production schedules  
 - Reducing need for expensive simulations  
 - Early detection of breakthrough events
 
-# 12. Future Work & Extensions <a name="future"></a>
+# 07. Future Work & Extensions <a name="future"></a>
 - Extend to 3D reservoirs  
 - Integrate real-world P/T measurements  
 - Bayesian FNO for uncertainty  
 - Hybrid DeepONet + FNO  
 - Real-time predictive monitoring for operational safety
 
-# 13. Python Implementation <a name="python"></a>
+# 08. Python Implementation <a name="python"></a>
 Below is a complete Python implementation that demonstrates the development of a Physics-Informed Fourier Neural Operator (FNO) to predict hydrogen breakthrough time from heterogeneous permeability fields. The workflow is built entirely in PyTorch, leveraging FFT-based spectral convolutions for efficient operator learning. The code includes dataset generation, model definition, training, and evaluation steps, all designed to emulate the underlying two-phase flow dynamics with capillary effects in porous media. This implementation serves as both a research prototype and a foundation for scaling to larger 2D or 3D reservoir models.
 
 ```python
