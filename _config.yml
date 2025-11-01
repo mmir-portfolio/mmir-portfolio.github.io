@@ -9,7 +9,7 @@ plugins:
 #-------------------------------
 # General Site Settings
 title: Mammad Mirza
-description: "Hello, I’m Mammad, an inquisitive scientist with PhD in Engineering and with expertise in subsurface resource engineering, reservoir simulation, applied machine learning and geothermal energy, and CO2 capture and sequestration. I wander mostly judiciously into topics related to Reservoir Connectivity, Production Optimization, Geothermal Energy, CO2 Capture and Sequestration, Reservoir simulation, and the application of artificial intelligence for clean energy production. I have developed image processing workflows as well as statistical models for analyzing complex subsurface datasets; the latter particularly was done for the purpose of monitoring. I used regression and clustering, as well as Bayesian inference for characterization. Further to this endeavor, I use Python and its associated frameworks such as PyTorch, TensorFlow, and Hugging Face to design and fine-tune algorithms on data processing workflow, uncertainty quantification as well as hybrid ML-reservoir modeling."
+description: "Hello, I’m Mammad, an inquisitive scientist with PhD in Engineering and with expertise in subsurface resource engineering, reservoir simulation, applied machine learning and geothermal energy, and CO2 capture and sequestration. I wander most judiciously into topics related to Reservoir Characterization, Production Optimization, and the application of artificial intelligence for clean energy production. I have developed image processing workflows as well as statistical models for analyzing complex subsurface datasets; the latter particularly was done for the purpose of monitoring. I used regression and clustering, as well as Bayesian inference for characterization. Further to this endeavor, I use Python and its associated frameworks such as PyTorch, TensorFlow, and Hugging Face to design and fine-tune algorithms on data processing workflow, uncertainty quantification as well as hybrid ML-reservoir modeling."
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
@@ -50,6 +50,7 @@ defaults:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
 
 
 
