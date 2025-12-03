@@ -179,7 +179,7 @@ Free to use, modify, and distribute with attribution.
 ---
 
 ## 11. Example Output Interpretation
-<a name="-example-output-interpretation"></a>
+<a name="example-output-interpretation"></a>
 
 > "The SGS agent completed 20 realizations on a 100×100 simulation grid.  
 > The output maps show higher uncertainty in the NE quadrant, consistent with sparse sampling in that region.  
