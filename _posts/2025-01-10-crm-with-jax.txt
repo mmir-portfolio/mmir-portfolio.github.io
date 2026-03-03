@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Capacitance–Resistance Model (CRM) with JAX for Reservoir Connectivity Analysis
-image: "/posts/crm-jax-title-img.png"
+image: "/posts/crm-jax-title-img1.png"
 tags: [Python, JAX, Reservoir Engineering, Oil & Gas, Optimization, Inverse Modeling]
 ---
 
@@ -267,5 +267,6 @@ Unlike black-box ML, CRM preserves physical meaning while benefiting from comput
 # 11. Conclusion <a name="conclusion"></a>
 
 The Capacitance–Resistance Model remains one of the most interpretable reduced-order tools in reservoir engineering.
+
 
 By implementing CRM in JAX with automatic differentiation and formal convergence monitoring, this project demonstrates a modern, scalable, and production-ready approach to reservoir connectivity estimation and optimization.
