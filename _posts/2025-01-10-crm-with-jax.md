@@ -5,7 +5,7 @@ image: "/posts/crm-jax-title-img1.png"
 tags: [Python, JAX, Reservoir Engineering, Oil & Gas, Optimization, Inverse Modeling]
 ---
 
-In this project, I developed a multi-producer, multi-injector Capacitance–Resistance Model (CRM) using automatic differentiation in JAX to estimate interwell connectivity and reservoir time constants from historical injection and production data.
+In this project, we developed a multi-producer, multi-injector Capacitance–Resistance Model (CRM) using automatic differentiation in JAX to estimate interwell connectivity and reservoir time constants from historical injection and production data.
 
 CRM is a physics-based reduced-order model widely used in reservoir surveillance and waterflood management. Unlike full-physics simulation, CRM provides fast, interpretable insights into how injectors influence producers — making it highly suitable for real-time field optimization and data-driven reservoir management.
 
