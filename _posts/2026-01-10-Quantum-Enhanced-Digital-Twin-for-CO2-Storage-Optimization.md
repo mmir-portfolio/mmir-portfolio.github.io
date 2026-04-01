@@ -291,7 +291,6 @@ This section implements the hybrid quantum-classical Digital Twin for CCS. The a
 - QAOA (quantum optimization)  
 - Closed-loop control system  
 
-All code below is contained within a **single Python code block**, with internal subsection markers.
 
 ```python
 # === 8.1. ENVIRONMENT SETUP ===
