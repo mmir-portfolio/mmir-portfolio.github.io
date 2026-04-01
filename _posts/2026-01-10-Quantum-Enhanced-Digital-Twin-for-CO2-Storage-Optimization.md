@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Quantum-Enhanced Digital Twin for CO2 Storage Optimization: Kalman Filtering and QAOA-Based Injection Optimization
+title: Quantum-Enhanced Digital Twin for CO2 Storage Optimization (Kalman Filtering and QAOA-Based Injection Optimization)
 image: "/posts/quantum-enhanced-digital-twin-img.png"
 tags: [Quantum-Computing, Digital-Twin, Carbon Storage, Optimization, Kalman Filter, Decision-making]
 ---
