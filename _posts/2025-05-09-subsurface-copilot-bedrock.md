@@ -80,7 +80,7 @@ def extract_chunks(pdf_path, chunk_size=500):
 
 # 3.Model Selection & Training <a name="model-selection-application"></a> 
 
-### 🔧 Embedding + Storage
+###  Embedding + Storage
 ```python
 import boto3
 
