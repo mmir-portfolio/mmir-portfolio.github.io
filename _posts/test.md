@@ -1,10 +1,24 @@
-# 02. Governing Physics <a name="physics-main"></a>
+# 02. Governing Physics
+
+The physical behavior of CO₂ injection in a subsurface reservoir is governed by complex multiphase flow dynamics, including:
+
+- Pressure diffusion  
+- Fluid transport  
+- Interactions with porous geological media  
+
+While high-fidelity models involve **partial differential equations (PDEs)**, this project adopts a **reduced-order, physics-informed dynamical system** to enable efficient simulation and integration with optimization algorithms.
+
+---
 
 ## 2.1 State Variables
 
+The system is described using a compact state vector:
+
 <div style="text-align:center;">
-x = [P, S]<sup>T</sup>
+x = [ P , S ]
 </div>
+
+Where:
 
 - P = reservoir pressure  
 - S = CO₂ saturation  
@@ -13,71 +27,64 @@ x = [P, S]<sup>T</sup>
 
 ## 2.2 Dynamic Model
 
+The evolution of the system is approximated using linearized dynamics:
+
 <div style="text-align:center;">
-dP/dt = -αP + βu  
-dS/dt = γu - δS
+dP/dt = − α P + β u  
+<br>
+dS/dt = γ u − δ S
 </div>
 
 Where:
 
-- u = injection rate  
-- α = pressure dissipation  
-- β = pressure response  
-- γ = saturation increase  
-- δ = saturation decay  
+- u = CO₂ injection rate (control input)  
+- α = pressure dissipation coefficient  
+- β = pressure response to injection  
+- γ = saturation increase due to injection  
+- δ = saturation decay or redistribution  
+
+These equations capture the essential trade-off:
+
+- Increasing injection improves storage (higher saturation)  
+- But also increases pressure, introducing operational risk  
 
 ---
 
-## 2.3 Discrete-Time Formulation
+## 2.3 Discrete-Time State-Space Formulation
+
+For integration with estimation and control, the system is discretized:
 
 <div style="text-align:center;">
-x<sub>k+1</sub> = A x<sub>k</sub> + B u<sub>k</sub> + w<sub>k</sub>
-
+x<sub>k+1</sub> = A x<sub>k</sub> + B u<sub>k</sub> + w<sub>k</sub>  
+<br>
 z<sub>k</sub> = C x<sub>k</sub> + v<sub>k</sub>
 </div>
 
-**Where:**
+Where:
 
-- \( x_k \) = system state at time step \( k \)  
-- \( z_k \) = measurement vector  
-- \( w_k \sim \mathcal{N}(0, Q) \) = process noise  
-- \( v_k \sim \mathcal{N}(0, R) \) = measurement noise 
+- x<sub>k</sub> = system state at time step k  
+- z<sub>k</sub> = measurement vector  
+- w<sub>k</sub> ∼ N(0, Q) = process noise  
+- v<sub>k</sub> ∼ N(0, R) = measurement noise  
 
 ---
 
 ## 2.4 System Matrices
 
 <div style="text-align:center;">
-A = [[1-αΔt, 0], [0, 1-δΔt]]  
-B = [[βΔt], [γΔt]]  
-C = [1, 0]
+A = [ 1 − αΔt   0  
+      0         1 − δΔt ]
+<br><br>
+B = [ βΔt  
+      γΔt ]
+<br><br>
+C = [ 1   0 ]
 </div>
 
-- Only pressure is directly observed, reflecting realistic sensing limitations.  
-- Saturation is treated as a hidden state, estimated via the Kalman Filter.
+Key observations:
 
----
-
-## 2.5 Uncertainty Modeling
-By taking into account the process noise and measurement noise, we can reflect real-world conditions.
-
-- Process noise - w ~ N(0, Q): It captures model uncertainty and unmodeled dynamics 
-- Measurement noise - v ~ N(0, R): It represents sensor inaccuracies.
-
-This uncertainty is critical, as it motivates the use of state estimation and influences downstream optimization decisions.
-
----
-
-## 2.6 Control Objective
-The governing physics defines a constrained control problem:
-
-- Maximize CO₂ storage efficiency (increase saturation)
-- Maintain pressure within safe limits
-
-This trade-off is later encoded into a QUBO formulation and solved using QAOA, forming the decision-making layer of the system.
-
----
-
+- Only **pressure (P)** is directly observed, reflecting realistic sensing limitations  
+- **Saturation (S)** is treated as a hidden state and must be estimated using the Kalman filter  
 
 # 03. Problem Formulation
 
