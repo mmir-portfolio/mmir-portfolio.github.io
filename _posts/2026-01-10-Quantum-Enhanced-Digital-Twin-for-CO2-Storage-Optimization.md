@@ -128,6 +128,7 @@ By taking into account the process noise and measurement noise, we can reflect r
 - Measurement noise - v ~ N(0, R): It represents sensor inaccuracies.
 
 This uncertainty is critical, as it motivates the use of state estimation and influences downstream optimization decisions.
+
 ---
 
 ## 2.6 Control Objective
