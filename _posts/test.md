@@ -14,18 +14,19 @@ While high-fidelity models involve **partial differential equations (PDEs)**, th
 
 The system is described using a compact state vector:
 
-<div style="display: inline-flex; align-items: center; font-family: 'Times New Roman', serif; font-size: 1.5rem;">
-  <div style="margin-right: 10px;">x =</div>
-  
-  <div style="width: 6px; height: 60px; border: 2px solid black; border-right: none;"></div>
-  
-  <div style="display: flex; flex-direction: column; justify-content: space-around; align-items: center; height: 60px; padding: 0 8px;">
-    <div>P</div>
-    <div>S</div>
-  </div>
-  
-  <div style="width: 6px; height: 60px; border: 2px solid black; border-left: none;"></div>
-</div>
+<table style="display: inline-table; border-collapse: collapse; font-family: serif; font-size: 1.2em; margin-top: 10px;">
+  <tr>
+    <td rowspan="2" style="padding-right: 10px; vertical-align: middle;">x =</td>
+    <td style="border-left: 2px solid black; border-top: 2px solid black; border-bottom: none; width: 5px;"></td>
+    <td style="text-align: center; padding: 0 10px;">P</td>
+    <td style="border-right: 2px solid black; border-top: 2px solid black; border-bottom: none; width: 5px;"></td>
+  </tr>
+  <tr>
+    <td style="border-left: 2px solid black; border-bottom: 2px solid black; border-top: none;"></td>
+    <td style="text-align: center; padding: 0 10px;">S</td>
+    <td style="border-right: 2px solid black; border-bottom: 2px solid black; border-top: none;"></td>
+  </tr>
+</table>
 
 Where:
 
