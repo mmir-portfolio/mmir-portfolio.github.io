@@ -14,12 +14,17 @@ While high-fidelity models involve **partial differential equations (PDEs)**, th
 
 The system is described using a compact state vector:
 
-<div style="display: inline-flex; align-items: center; font-family: serif; font-size: 1.2rem;" markdown="1">
-  <span style="margin-right: 10px;">x =</span>
-  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; border-left: 2px solid black; border-right: 2px solid black; border-radius: 6px; padding: 4px 10px; line-height: 1.2;">
-    <span>P</span>
-    <span>S</span>
+<div style="display: inline-flex; align-items: center; font-family: 'Times New Roman', serif; font-size: 1.5rem;">
+  <div style="margin-right: 10px;">x =</div>
+  
+  <div style="width: 6px; height: 60px; border: 2px solid black; border-right: none;"></div>
+  
+  <div style="display: flex; flex-direction: column; justify-content: space-around; align-items: center; height: 60px; padding: 0 8px;">
+    <div>P</div>
+    <div>S</div>
   </div>
+  
+  <div style="width: 6px; height: 60px; border: 2px solid black; border-left: none;"></div>
 </div>
 
 Where:
