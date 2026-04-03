@@ -2,24 +2,24 @@
 
 The CO₂ injection process is formulated as a **sequential decision-making problem under uncertainty**, where control actions must balance competing physical and operational objectives.
 
-At each time step \(k\), the system is characterized by an estimated state:
+At each time step k, the system is characterized by an estimated state:
 
-<div>
-x^k = [ P^k , S^k ]
+<div style="text-align:center;">
+x<sup>k</sup> = [ P<sup>k</sup> , S<sup>k</sup> ]
 </div>
 
 obtained via the Kalman filter.
 
-Based on this estimate, the objective is to determine an optimal injection rate \(u_k\) that:
+Based on this estimate, the objective is to determine an optimal injection rate u<sub>k</sub> that:
 
-- Maximizes CO₂ storage (increase saturation \(S\))  
+- Maximizes CO₂ storage (increase saturation S)  
 - Minimizes pressure buildup to avoid safety risks  
 - Respects operational constraints on injection rates  
 
 This leads to a constrained optimization problem:
 
-<div>
-min over u_k  J(u_k, x^k)
+<div style="text-align:center;">
+min<sub>u<sub>k</sub></sub> J(u<sub>k</sub>, x<sup>k</sup>)
 </div>
 
 where the objective function encodes trade-offs between storage efficiency and pressure safety.
@@ -38,39 +38,39 @@ the problem is reformulated into a **Quadratic Unconstrained Binary Optimization
 
 To enable quantum optimization, the control problem is expressed in QUBO form:
 
-<div>
-min over x in {0,1}^n   x^T Q x
+<div style="text-align:center;">
+min<sub>x ∈ {0,1}<sup>n</sup></sub> x<sup>T</sup> Q x
 </div>
 
 where:
 
-- \(x\): binary decision variables encoding discrete injection levels  
-- \(Q\): problem-specific matrix capturing objective terms and penalties  
+- x represents binary decision variables encoding discrete injection levels  
+- Q is a problem-specific matrix capturing objective terms and penalties  
 
 ---
 
 ## 4.1 Decision Encoding
 
-The injection rate \(u_k\) is discretized into binary variables:
+The injection rate u<sub>k</sub> is discretized into binary variables:
 
-<div>
-u_k = sum(i=1 to n) w_i * x_i
+<div style="text-align:center;">
+u<sub>k</sub> = ∑<sub>i=1</sub><sup>n</sup> w<sub>i</sub> x<sub>i</sub>
 </div>
 
 where:
-- \(w_i\) are predefined weights corresponding to injection levels  
+- w<sub>i</sub> are predefined weights corresponding to injection levels  
 
 ---
 
 ## 4.2 Objective Construction
 
-The QUBO matrix \(Q\) incorporates:
+The QUBO matrix Q incorporates:
 
 ### Storage Reward Term  
 Encourages higher saturation:
 
-<div>
-- λ_s * S^k
+<div style="text-align:center;">
+− λ<sub>s</sub> S<sup>k</sup>
 </div>
 
 ---
@@ -78,8 +78,8 @@ Encourages higher saturation:
 ### Pressure Penalty Term  
 Penalizes high pressure:
 
-<div>
-λ_p * (P^k / P_max)^2
+<div style="text-align:center;">
+λ<sub>p</sub> (P<sup>k</sup> / P<sub>max</sub>)<sup>2</sup>
 </div>
 
 ---
@@ -87,8 +87,8 @@ Penalizes high pressure:
 ### Control Regularization  
 Prevents excessive injection:
 
-<div>
-λ_u * (u_k)^2
+<div style="text-align:center;">
+λ<sub>u</sub> (u<sub>k</sub>)<sup>2</sup>
 </div>
 
 ---
@@ -97,8 +97,8 @@ Prevents excessive injection:
 
 The combined formulation yields a quadratic objective:
 
-<div>
-J(x) = x^T Q x + c^T x
+<div style="text-align:center;">
+J(x) = x<sup>T</sup> Q x + c<sup>T</sup> x
 </div>
 
 This QUBO problem is solved using the **Quantum Approximate Optimization Algorithm (QAOA)**, which leverages parameterized quantum circuits to approximate the optimal binary solution.
@@ -120,8 +120,8 @@ The system operates as a **closed-loop hybrid quantum-classical pipeline**, inte
 ### 1. State Estimation  
 Sensor measurements are processed by the Kalman filter to produce an estimated state:
 
-<div>
-x^k
+<div style="text-align:center;">
+x<sup>k</sup>
 </div>
 
 ---
@@ -161,22 +161,22 @@ Since real reservoir data is not publicly available, a **synthetic dataset** is 
 At each time step:
 
 ### System Evolution
-<div>
-x_(k+1) = A x_k + B u_k + w_k
+<div style="text-align:center;">
+x<sub>k+1</sub> = A x<sub>k</sub> + B u<sub>k</sub> + w<sub>k</sub>
 </div>
 
 ---
 
 ### Measurement Model
-<div>
-z_k = C x_k + v_k
+<div style="text-align:center;">
+z<sub>k</sub> = C x<sub>k</sub> + v<sub>k</sub>
 </div>
 
 ---
 
 ### State Estimation
-<div>
-x^k = KF(z_k)
+<div style="text-align:center;">
+x<sup>k</sup> = KF(z<sub>k</sub>)
 </div>
 
 ---
@@ -186,16 +186,16 @@ x^k = KF(z_k)
 The simulation produces:
 
 - True states:  
-  <div>x_k</div>
+  <div style="text-align:center;">x<sub>k</sub></div>
 
 - Estimated states:  
-  <div>x^k</div>
+  <div style="text-align:center;">x<sup>k</sup></div>
 
 - Measurements:  
-  <div>z_k</div>
+  <div style="text-align:center;">z<sub>k</sub></div>
 
 - Control actions:  
-  <div>u_k</div>
+  <div style="text-align:center;">u<sub>k</sub></div>
 
 ---
 
