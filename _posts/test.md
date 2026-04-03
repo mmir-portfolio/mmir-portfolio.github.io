@@ -1,3 +1,84 @@
+# 02. Governing Physics <a name="physics-main"></a>
+
+## 2.1 State Variables
+
+<div style="text-align:center;">
+x = [P, S]<sup>T</sup>
+</div>
+
+- P = reservoir pressure  
+- S = CO₂ saturation  
+
+---
+
+## 2.2 Dynamic Model
+
+<div style="text-align:center;">
+dP/dt = -αP + βu  
+dS/dt = γu - δS
+</div>
+
+Where:
+
+- u = injection rate  
+- α = pressure dissipation  
+- β = pressure response  
+- γ = saturation increase  
+- δ = saturation decay  
+
+---
+
+## 2.3 Discrete-Time Formulation
+
+<div style="text-align:center;">
+x<sub>k+1</sub> = A x<sub>k</sub> + B u<sub>k</sub> + w<sub>k</sub>
+
+z<sub>k</sub> = C x<sub>k</sub> + v<sub>k</sub>
+</div>
+
+**Where:**
+
+- \( x_k \) = system state at time step \( k \)  
+- \( z_k \) = measurement vector  
+- \( w_k \sim \mathcal{N}(0, Q) \) = process noise  
+- \( v_k \sim \mathcal{N}(0, R) \) = measurement noise 
+
+---
+
+## 2.4 System Matrices
+
+<div style="text-align:center;">
+A = [[1-αΔt, 0], [0, 1-δΔt]]  
+B = [[βΔt], [γΔt]]  
+C = [1, 0]
+</div>
+
+- Only pressure is directly observed, reflecting realistic sensing limitations.  
+- Saturation is treated as a hidden state, estimated via the Kalman Filter.
+
+---
+
+## 2.5 Uncertainty Modeling
+By taking into account the process noise and measurement noise, we can reflect real-world conditions.
+
+- Process noise - w ~ N(0, Q): It captures model uncertainty and unmodeled dynamics 
+- Measurement noise - v ~ N(0, R): It represents sensor inaccuracies.
+
+This uncertainty is critical, as it motivates the use of state estimation and influences downstream optimization decisions.
+
+---
+
+## 2.6 Control Objective
+The governing physics defines a constrained control problem:
+
+- Maximize CO₂ storage efficiency (increase saturation)
+- Maintain pressure within safe limits
+
+This trade-off is later encoded into a QUBO formulation and solved using QAOA, forming the decision-making layer of the system.
+
+---
+
+
 # 03. Problem Formulation
 
 The CO₂ injection process is formulated as a **sequential decision-making problem under uncertainty**, where control actions must balance competing physical and operational objectives.
