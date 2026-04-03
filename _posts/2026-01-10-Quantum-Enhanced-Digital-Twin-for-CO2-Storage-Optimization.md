@@ -110,7 +110,7 @@ z<sub>k</sub> = C x<sub>k</sub> + v<sub>k</sub>
 
 ## 2.4 System Matrices
 
-<div style="text-align:center;">
+<div>
 A = [[1-αΔt, 0], [0, 1-δΔt]]  
 B = [[βΔt], [γΔt]]  
 C = [1, 0]
