@@ -14,9 +14,12 @@ While high-fidelity models involve **partial differential equations (PDEs)**, th
 
 The system is described using a compact state vector:
 
-<div style="text-align:center;">
-x = [ P 
-      S ]
+<div style="text-align:center; font-size:18px;">
+x = 
+<span style="display:inline-block; border-left:2px solid black; border-right:2px solid black; padding:6px 10px;">
+P<br>
+S
+</span>
 </div>
 
 Where:
