@@ -253,7 +253,29 @@ The combined formulation yields a quadratic objective:
 J(x) = x<sup>T</sup> Q x + c<sup>T</sup> x
 </div>
 
-This QUBO problem is solved using the **Quantum Approximate Optimization Algorithm (QAOA)**, which leverages parameterized quantum circuits to approximate the optimal binary solution.
+where the linear term <em>c</em> and quadratic matrix <em>Q</em> encode the underlying physical objectives of the system, including:
+
+<ul>
+<li><strong>Storage reward</strong>, encouraging higher CO₂ saturation</li>
+<li><strong>Pressure penalty</strong>, discouraging unsafe pressure buildup</li>
+<li><strong>Control regularization</strong>, limiting excessive injection rates</li>
+</ul>
+
+The control input is defined as:
+
+<div style="text-align:center;">
+u<sub>k</sub> = Σ w<sub>i</sub> x<sub>i</sub>
+</div>
+
+and the objective implicitly captures the trade-off:
+
+<div style="text-align:center;">
+J(x) = −λ<sub>s</sub> S<sub>k</sub> + λ<sub>p</sub> (P<sub>k</sub> / P<sub>max</sub>)<sup>2</sup> + λ<sub>u</sub> (Σ w<sub>i</sub> x<sub>i</sub>)<sup>2</sup>
+</div>
+
+The quadratic term arises from the expansion of the control regularization component, introducing interactions between binary decision variables.
+
+This QUBO problem is solved using the <strong>Quantum Approximate Optimization Algorithm (QAOA)</strong>, which leverages parameterized quantum circuits to approximate the optimal binary solution. The QUBO coefficients are dynamically updated at each time step using the estimated state from the digital twin, enabling adaptive and closed-loop decision-making.
 
 ---
 
@@ -433,22 +455,36 @@ def build_quadratic_program(state):
     pressure, saturation = state
     qp = QuadraticProgram()
 
+    # Hyperparameters (tunable)
+    lambda_s = 1.0   # storage reward weight
+    lambda_p = 5.0   # pressure penalty weight
+    lambda_u = 0.5   # control regularization weight
+    P_max = 5.0
+
+    # Injection weights (define discrete levels)
+    weights = [1.0, 0.7, 0.3]
+
     # Binary decision variables
-    for i in range(3):
+    for i in range(len(weights)):
         qp.binary_var(name=f"x{i}")
 
-    # Linear coefficients (objective)
-    linear = {
-        "x0": -saturation,
-        "x1": -0.5 * saturation,
-        "x2": max(0, pressure - 5.0) * 10.0
-    }
+    # --- Compute pressure penalty (smooth) ---
+    pressure_penalty = lambda_p * (pressure / P_max) ** 2
 
-    # Quadratic terms (penalties / interactions)
-    quadratic = {
-        ("x0", "x1"): 0.1,
-        ("x1", "x2"): 0.05
-    }
+    # --- Linear terms ---
+    linear = {}
+    for i in range(len(weights)):
+        linear[f"x{i}"] = (
+            -lambda_s * saturation               # Storage reward
+            + pressure_penalty                  # Pressure penalty
+            + lambda_u * weights[i]**2          # Control regularization (diagonal)
+        )
+
+    # --- Quadratic terms (control regularization expansion) ---
+    quadratic = {}
+    for i in range(len(weights)):
+        for j in range(i + 1, len(weights)):
+            quadratic[(f"x{i}", f"x{j}")] = lambda_u * weights[i] * weights[j]
 
     qp.minimize(linear=linear, quadratic=quadratic)
     return qp
