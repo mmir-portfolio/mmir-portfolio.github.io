@@ -309,13 +309,34 @@ The control input is defined as:
 u<sub>k</sub> = Σ w<sub>i</sub> x<sub>i</sub>
 </div>
 
-and the objective implicitly captures the trade-off:
+where <em>w<sub>i</sub></em> represent discretized injection levels corresponding to physically meaningful control actions.
+
+Substituting this into the objective function, the optimization problem becomes:
 
 <div style="text-align:center;">
-J(x) = −λ<sub>s</sub> S<sub>k</sub> + λ<sub>p</sub> (P<sub>k</sub> / P<sub>max</sub>)<sup>2</sup> + λ<sub>u</sub> (Σ w<sub>i</sub> x<sub>i</sub>)<sup>2</sup>
+J(x) = −λ<sub>s</sub> S<sub>k</sub> (Σ w<sub>i</sub> x<sub>i</sub>)
++ λ<sub>p</sub> (P<sub>k</sub> / P<sub>max</sub>)<sup>2</sup> (Σ w<sub>i</sub> x<sub>i</sub>)
++ λ<sub>u</sub> (Σ w<sub>i</sub> x<sub>i</sub>)<sup>2</sup>
 </div>
 
-The quadratic term arises from the expansion of the control regularization component, introducing interactions between binary decision variables.
+This formulation ensures that each binary decision variable contributes proportionally to the objective based on its associated injection magnitude.
+
+Expanding the quadratic term:
+
+<div style="text-align:center;">
+(Σ w<sub>i</sub> x<sub>i</sub>)<sup>2</sup> =
+Σ w<sub>i</sub><sup>2</sup> x<sub>i</sub> +
+Σ w<sub>i</sub> w<sub>j</sub> x<sub>i</sub> x<sub>j</sub>
+</div>
+
+results in:
+
+<ul>
+<li><strong>Diagonal terms</strong> in the QUBO matrix, representing the cost of activating individual injection levels, scaled by their physical magnitude</li>
+<li><strong>Off-diagonal terms</strong>, capturing interactions between different injection levels through pairwise coupling</li>
+</ul>
+
+This weighted formulation ensures that the optimization reflects the true physical impact of each control action, rather than treating all binary decisions equally.
 
 This QUBO problem is solved using the <strong>Quantum Approximate Optimization Algorithm (QAOA)</strong>, which leverages parameterized quantum circuits to approximate the optimal binary solution. The QUBO coefficients are dynamically updated at each time step using the estimated state from the digital twin, enabling adaptive and closed-loop decision-making.
 
