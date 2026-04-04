@@ -514,17 +514,17 @@ def build_quadratic_program(state):
     # --- Linear terms ---
     linear = {}
     for i in range(len(weights)):
-        linear[f"x{i}"] = (
-            -lambda_s * saturation               # Storage reward
-            + pressure_penalty                  # Pressure penalty
-            + lambda_u * weights[i]**2          # Control regularization (diagonal)
-        )
+          linear[f"x{i}"] = (
+              -lambda_s * saturation * weights[i]     # Storage reward (scaled)
+              + pressure_penalty * weights[i]         # Pressure penalty (scaled)
+              + lambda_u * weights[i]**2              # Control regularization (diagonal)
+          )
 
     # --- Quadratic terms (control regularization expansion) ---
     quadratic = {}
     for i in range(len(weights)):
-        for j in range(i + 1, len(weights)):
-            quadratic[(f"x{i}", f"x{j}")] = lambda_u * weights[i] * weights[j]
+       for j in range(i+1, len(weights)):
+           quadratic[(f"x{i}", f"x{j}")] = lambda_u * weights[i] * weights[j]
 
     qp.minimize(linear=linear, quadratic=quadratic)
     return qp
