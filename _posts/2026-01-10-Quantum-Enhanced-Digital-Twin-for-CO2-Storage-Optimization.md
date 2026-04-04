@@ -216,32 +216,74 @@ where:
 
 ## 4.2 Objective Construction
 
-The QUBO matrix Q incorporates:
+The QUBO matrix <em>Q</em> is constructed to encode the key physical objectives governing CO₂ injection, translating reservoir dynamics and operational constraints into an optimization framework.
 
-### Storage Reward Term  
-Encourages higher saturation:
+The objective consists of three main components:
 
-<div style="text-align:center;">
-− λ<sub>s</sub> S<sup>k</sup>
-</div>
-
----
-
-### Pressure Penalty Term  
-Penalizes high pressure:
-
-<div style="text-align:center;">
-λ<sub>p</sub> (P<sup>k</sup> / P<sub>max</sub>)<sup>2</sup>
-</div>
+<ul>
+<li><strong>Storage Reward Term</strong>, encouraging higher CO₂ saturation</li>
+<li><strong>Pressure Penalty Term</strong>, discouraging unsafe pressure buildup</li>
+<li><strong>Control Regularization</strong>, limiting excessive injection rates</li>
+</ul>
 
 ---
 
-### Control Regularization  
-Prevents excessive injection:
+### Storage Reward Term
+
+This term promotes efficient CO₂ storage by favoring higher saturation levels:
+
+<div style="text-align:center;">
+−λ<sub>s</sub> S<sub>k</sub>
+</div>
+
+In the QUBO formulation, this is implemented through negative linear coefficients, encouraging the selection of injection actions that increase saturation.
+
+---
+
+### Pressure Penalty Term
+
+To ensure safe operation, pressure buildup is penalized using a smooth quadratic function:
+
+<div style="text-align:center;">
+λ<sub>p</sub> (P<sub>k</sub> / P<sub>max</sub>)<sup>2</sup>
+</div>
+
+This formulation ensures that the penalty is active across all operating conditions, increasing progressively as pressure approaches critical limits. The term is incorporated into the linear coefficients of the QUBO, influencing all decision variables.
+
+---
+
+### Control Regularization
+
+To prevent overly aggressive injection strategies, a regularization term is introduced:
 
 <div style="text-align:center;">
 λ<sub>u</sub> (u<sub>k</sub>)<sup>2</sup>
 </div>
+
+where the control input is defined as:
+
+<div style="text-align:center;">
+u<sub>k</sub> = Σ w<sub>i</sub> x<sub>i</sub>
+</div>
+
+Expanding this term:
+
+<div style="text-align:center;">
+(u<sub>k</sub>)<sup>2</sup> = Σ w<sub>i</sub><sup>2</sup> x<sub>i</sub> + Σ w<sub>i</sub> w<sub>j</sub> x<sub>i</sub> x<sub>j</sub>
+</div>
+
+This results in:
+
+<ul>
+<li><strong>Diagonal terms</strong> in the QUBO matrix, penalizing individual injection decisions</li>
+<li><strong>Off-diagonal terms</strong>, introducing coupling between decision variables</li>
+</ul>
+
+---
+
+### Combined Objective Representation
+
+These components are combined to form a unified objective that balances storage efficiency, operational safety, and control stability. The resulting QUBO formulation enables structured optimization of injection strategies under dynamic reservoir conditions.
 
 ---
 
