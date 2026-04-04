@@ -360,8 +360,6 @@ The chosen injection rate is applied to the physical model (digital twin).
 ### 5. Measurement Update  
 New measurements are generated and fed back into the Kalman filter.
 
----
-
 This loop continues iteratively, enabling **adaptive control under uncertainty**.
 
 ---
