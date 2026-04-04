@@ -228,7 +228,7 @@ The objective consists of three main components:
 
 ---
 
-### Storage Reward Term
+### 4.2.1 Storage Reward Term
 
 This term promotes efficient CO₂ storage by favoring higher saturation levels:
 
@@ -240,7 +240,7 @@ In the QUBO formulation, this is implemented through negative linear coefficient
 
 ---
 
-### Pressure Penalty Term
+### 4.2.2 Pressure Penalty Term
 
 To ensure safe operation, pressure buildup is penalized using a smooth quadratic function:
 
@@ -252,7 +252,7 @@ This formulation ensures that the penalty is active across all operating conditi
 
 ---
 
-### Control Regularization
+### 4.2.3 Control Regularization
 
 To prevent overly aggressive injection strategies, a regularization term is introduced:
 
