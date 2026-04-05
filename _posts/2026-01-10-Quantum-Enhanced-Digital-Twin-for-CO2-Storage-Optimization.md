@@ -139,7 +139,7 @@ Where:
 
 <div style="text-align:center;">
 A = [ 1 − αΔt   0  
-      0         1 − δΔt ]
+<br><br> 0         1 − δΔt ]
 <br><br>
 B = [ βΔt  
       γΔt ]
