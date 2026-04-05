@@ -355,9 +355,7 @@ The system operates as a **closed-loop hybrid quantum-classical pipeline**, inte
 ## Workflow Steps
 
 ### 1. State Estimation  
-Sensor measurements are processed by the Kalman filter to produce an estimated state:<div>
-x<sup>k</sup>
-</div>
+Sensor measurements are processed by the Kalman filter to produce an estimated state:x<sup>k</sup>
 
 ---
 
