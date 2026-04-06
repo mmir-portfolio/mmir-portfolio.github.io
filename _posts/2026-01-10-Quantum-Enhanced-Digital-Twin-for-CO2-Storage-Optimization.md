@@ -76,13 +76,12 @@ While high-fidelity models involve **partial differential equations (PDEs)**, th
 
 The system is described using a compact state vector:
 
-<div style="text-align:center; font-size:18px;">
-x = 
-<span style="display:inline-block; border-left:2px solid black; border-right:2px solid black; padding:6px 10px;">
-P<br>
+$$x=
+\begin{bmatrix}
+P\cr
 S
-</span>
-</div>
+\end{bmatrix}
+$$
 
 Where:
 
@@ -137,15 +136,25 @@ Where:
 
 ## 2.4 System Matrices
 
-<div style="text-align:center;">
-A = [ 1 − αΔt   0  
-    <br><br> 0         1 − δΔt ]
-<br><br>
-B = [ βΔt  
-      γΔt ]
-<br><br>
-C = [ 1   0 ]
-</div>
+$$A=
+\begin{bmatrix}
+1 − αΔt & 0\cr
+0 & 1 − δΔt
+\end{bmatrix}
+$$
+
+$$B=
+\begin{bmatrix}
+βΔt\cr
+γΔt
+\end{bmatrix}
+$$
+
+$$C=
+\begin{bmatrix}
+1 & 0
+\end{bmatrix}
+$$
 
 Key observations:
 
