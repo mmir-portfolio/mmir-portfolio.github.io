@@ -5,7 +5,18 @@ $$A=
 \end{bmatrix}
 $$
 
-B = [ βΔt  
-      γΔt ]
-<br><br>
+$$B=
+\begin{bmatrix}
+βΔt\cr
+γΔt
+\end{bmatrix}
+$$
+
 C = [ 1   0 ]
+
+$$x=
+\begin{bmatrix}
+P\cr
+S
+\end{bmatrix}
+$$
