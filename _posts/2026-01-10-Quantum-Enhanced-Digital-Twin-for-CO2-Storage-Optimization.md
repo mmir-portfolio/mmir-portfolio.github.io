@@ -75,7 +75,7 @@ While high-fidelity models involve **partial differential equations (PDEs)**, th
 ## 2.1 State Variables
 
 The system is described using a compact state vector:
-
+{% include mathjax.html %}
 $$
 x = \begin{bmatrix} P \\ S \end{bmatrix}
 $$
