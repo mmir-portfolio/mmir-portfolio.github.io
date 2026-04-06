@@ -78,8 +78,7 @@ The system is described using a compact state vector:
 
 $$x=
 \begin{bmatrix}
-P\cr
-S
+P \\ S
 \end{bmatrix}
 $$
 
