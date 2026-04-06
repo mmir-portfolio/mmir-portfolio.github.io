@@ -39,6 +39,7 @@ This project introduces a **hybrid quantum-classical digital twin framework** th
 Together, these form a **closed-loop decision-making system**, continuously optimizing injection strategies using estimated reservoir states. 
 
 {% include mathjax.html %}
+
 ---
 
 # 01. Background <a name="background-main"></a>
