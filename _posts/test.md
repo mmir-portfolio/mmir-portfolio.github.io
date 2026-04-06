@@ -1,4 +1,9 @@
-$A=\begin{bmatrix}1 − αΔt&0\cr0&cr1 − δΔt\end{bmatrix}$
+$$A=
+\begin{bmatrix}
+1 − αΔt & 0\cr
+0 & 1 − δΔt
+\end{bmatrix}
+$$
 
 B = [ βΔt  
       γΔt ]
