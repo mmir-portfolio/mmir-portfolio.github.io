@@ -36,7 +36,7 @@ This project introduces a **hybrid quantum-classical digital twin framework** th
 - Kalman filter–based state estimation  
 - Quantum optimization using QAOA  
 
-Together, these form a **closed-loop decision-making system**, continuously optimizing injection strategies using estimated reservoir states.
+Together, these form a **closed-loop decision-making system**, continuously optimizing injection strategies using estimated reservoir states. {% include mathjax.html %}
 
 ---
 
@@ -75,7 +75,7 @@ While high-fidelity models involve **partial differential equations (PDEs)**, th
 ## 2.1 State Variables
 
 The system is described using a compact state vector:
-{% include mathjax.html %}
+
 $$
 x = \begin{bmatrix} P \\ S \end{bmatrix}
 $$
