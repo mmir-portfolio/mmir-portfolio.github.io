@@ -37,6 +37,7 @@ defaults:
     values:
       layout: post
       read_time: true
+      mathjax: true
       share: false
 
 # Markdown and Math Settings
