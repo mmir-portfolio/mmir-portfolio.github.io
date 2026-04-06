@@ -12,7 +12,12 @@ $$B=
 \end{bmatrix}
 $$
 
-C = [ 1   0 ]
+$$C=
+\begin{bmatrix}
+1 & 0
+\end{bmatrix}
+$$
+
 
 $$x=
 \begin{bmatrix}
