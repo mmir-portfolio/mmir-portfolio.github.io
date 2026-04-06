@@ -36,8 +36,9 @@ This project introduces a **hybrid quantum-classical digital twin framework** th
 - Kalman filter–based state estimation  
 - Quantum optimization using QAOA  
 
-Together, these form a **closed-loop decision-making system**, continuously optimizing injection strategies using estimated reservoir states. {% include mathjax.html %}
+Together, these form a **closed-loop decision-making system**, continuously optimizing injection strategies using estimated reservoir states. 
 
+{% include mathjax.html %}
 ---
 
 # 01. Background <a name="background-main"></a>
