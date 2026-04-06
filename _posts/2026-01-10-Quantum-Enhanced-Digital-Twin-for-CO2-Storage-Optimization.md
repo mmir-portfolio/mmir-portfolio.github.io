@@ -76,12 +76,12 @@ While high-fidelity models involve **partial differential equations (PDEs)**, th
 
 The system is described using a compact state vector:
 
-$$x=
+$x=
 \begin{bmatrix}
 P\cr
 S
 \end{bmatrix}
-$$
+$
 
 Where:
 
