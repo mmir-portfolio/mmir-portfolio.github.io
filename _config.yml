@@ -39,6 +39,11 @@ defaults:
       read_time: true
       share: false
 
+# Markdown and Math Settings
+markdown: kramdown
+kramdown:
+  math_engine: mathjax
+  syntax_highlighter: rouge
 
 #-------------------------------
 # Exclude from processing.
