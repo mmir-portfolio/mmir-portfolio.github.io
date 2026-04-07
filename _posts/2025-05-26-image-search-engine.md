@@ -5,7 +5,7 @@ image: "/posts/dl-search-engine-title-img.png"
 tags: [Deep Learning, CNN, Data Science, Computer Vision, Python]
 ---
 
-In this project we build a Deep Learning based Image Search Engine that will help customers find similar products to ones they want!
+In this project, we build a Deep Learning based Image Search Engine that will help customers find similar products to ones they want!
 
 # Table of contents
 
