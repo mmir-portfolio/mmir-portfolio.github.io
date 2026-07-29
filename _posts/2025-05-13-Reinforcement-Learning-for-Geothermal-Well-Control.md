@@ -20,10 +20,8 @@ This project provides a **comprehensive framework** to understand how geothermal
 - [07. Annual Energy Yield](#annual-main)
 - [08. Discussion of Results](#discussion-main)
 - [09. Assumptions and Limitations](#assumptions-main)
-- [10. Real-World Applications](#applications-main)
-- [11. Future Directions](#future-main)
-- [12. Conclusion](#conclusion-main)
-- [13. Python Implementation](#python-main)
+- [10. Conclusion](#conclusion-main)
+- [11. Python Implementation](#python-main)
 
 ---
 
@@ -155,17 +153,13 @@ This is enough to power roughly **700 Canadian households** annually, assuming a
 
 # 08. Discussion of Results <a name="discussion-main"></a>
 
-Key insights:  
-
-- **ΔT dominates output:** Doubling ΔT roughly doubles thermal output.  
-- **Flow rate scaling is linear:** If ṁ doubles, Q doubles.  
-- **Efficiency bottleneck:** Conversion losses limit electrical output.  
-- **System design trade-offs:** Higher reinjection temperatures protect the reservoir but reduce power output.  
+The thermal output of an enhanced geothermal system is governed primarily by two operational parameters, and their relationship to power generation reveals where the system's fundamental trade-offs lie. The temperature difference between the production and reinjection fluid , ΔT,  is the dominant driver: doubling ΔT approximately doubles thermal output, making it the single highest-leverage variable in system design. Mass flow rate scales linearly with the same effect, meaning that doubling circulation rate doubles heat extraction, though this gain comes with its own pumping energy penalties and reservoir pressure implications. The gap between thermal output and electrical generation, however, is where efficiency losses accumulate. Thermodynamic conversion constraints mean that only a fraction of extracted heat translates into usable power, and that fraction is sensitive to working fluid temperatures and cycle design in ways that raw thermal calculations do not capture. This creates a central design tension: reinjecting fluid at higher temperatures protects long-term reservoir integrity by reducing thermal stress and maintaining fracture permeability, but it directly narrows ΔT and compresses power output. Optimizing an EGS for sustained performance therefore requires treating reservoir preservation and power maximization not as independent objectives but as coupled constraints. This is a trade-off that sits at the heart of making geothermal energy both repeatable and economically viable at scale. 
 
 ---
 
 # 09. Assumptions and Limitations <a name="assumptions-main"></a>
 
+We have following assumptions:
 - No heat losses in pipes or pumps.  
 - Constant fluid properties (c<sub>p</sub> = 4180 J/kg·K).  
 - Efficiency fixed at 12%.  
@@ -174,35 +168,15 @@ Key insights:
 
 ---
 
-# 10. Real-World Applications <a name="applications-main"></a>
 
-- **Iceland:** Over 90% of homes heated with geothermal.  
-- **USA – The Geysers, California:** Largest geothermal field, >1500 MW.  
-- **Kenya:** Rift Valley geothermal development surpassing 900 MW.  
-- **Turkey:** Rapid ORC expansion (>1600 MW installed capacity by 2023).  
 
-These examples demonstrate geothermal’s scalability and adaptability.  
+# 10. Conclusion <a name="conclusion-main"></a>
+
+Geothermal energy's defining advantage over other renewables is continuity, as it generates power around the clock, independent of weather, season, or grid conditions. Even modest systems, operating at flow rates around 30 kg/s with a temperature differential of 60 °C, can yield nearly 8 GWh annually, enough to demonstrate that geothermal is not a niche technology but a scalable one. Wider deployment would do two things simultaneously: reduce dependence on fossil fuels and provide the baseload stability that solar and wind grids increasingly need but cannot supply themselves.  
 
 ---
 
-# 11. Future Directions <a name="future-main"></a>
-
-- **Enhanced Geothermal Systems (EGS):** Unlocking heat in impermeable rock via hydraulic stimulation.  
-- **Hybrid plants:** Geothermal + solar thermal or biomass to raise efficiency.  
-- **Carbon storage integration:** Combining geothermal reservoirs with CO₂ sequestration.  
-- **Direct-use growth:** Agriculture, aquaculture, and industrial applications.  
-
----
-
-# 12. Conclusion <a name="conclusion-main"></a>
-
-- Geothermal is a **continuous renewable** energy source.  
-- Even modest systems (~30 kg/s, ΔT = 60 °C) yield nearly **8 GWh annually**.  
-- Wider adoption could reduce fossil fuel reliance and stabilize renewable-heavy grids.  
-
----
-
-# 13. Python Implementation <a name="python-main"></a>
+# 11. Python Implementation <a name="python-main"></a>
 
 Below is a Python script for geothermal power calculations, followed by a prototype **reinforcement learning (RL) environment** for well control optimization.  
 
