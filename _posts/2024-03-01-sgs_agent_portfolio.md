@@ -22,10 +22,7 @@ A portfolio project demonstrating how to build an intelligent AI agent that perf
 - [5.Agent Design](#agent-design)
 - [6.Dataset Format (CSV)](#dataset-format-csv)
 - [7.References](#references)
-- [8.License](#license)
-- [9.Known Limitations](#known-limitations)
-- [10.Future Enhancements](#future-enhancements)
-- [11.Example Output Interpretation](#example-output-interpretation)
+- [8.Example Output Interpretation](#example-output-interpretation)
 
 ---
 
@@ -148,37 +145,8 @@ The variable column (`Pb_conc` in this case) can be changed depending on the con
 
 ---
 
----
 
-## 8. License
-<a name="license"></a>
-
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).  
-Free to use, modify, and distribute with attribution.
-
----
-
-
-##  9. Known Limitations
-<a name="known-limitations"></a>
-
-- The current version performs simulations in batch without real-time progress feedback.
-- No support for trend removal or anisotropic variograms (yet).
-- The agent cannot yet generate 2D/3D visual outputs — to be added via Streamlit or matplotlib.
-
----
-
-##  10. Future Enhancements
-<a name="future-enhancements"></a>
-
--  Add support for variogram modeling from input data
--  Allow user control of simulation grid dimensions, number of realizations
--  Streamlit UI for uploading CSV and visualizing output maps
--  Support other kriging methods (e.g., Ordinary Kriging, Indicator Kriging)
-
----
-
-## 11. Example Output Interpretation
+## 8. Example Output Interpretation
 <a name="example-output-interpretation"></a>
 
 > "The SGS agent completed 20 realizations on a 100×100 simulation grid.  
