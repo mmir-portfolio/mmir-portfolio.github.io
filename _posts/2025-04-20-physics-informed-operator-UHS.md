@@ -15,9 +15,7 @@ In this project, we developed a physics-informed Fourier Neural Operator (FNO) m
 - [03. What Is Breakthrough Time?](#breakthrough-time)
 - [04. Why Fourier Neural Operator (FNO)?](#fno)
 - [05. Dataset Generation & Simulation Workflow](#dataset)
-- [06. Industry Relevance & Deployment](#applications)
-- [07. Future Work & Extensions](#future)
-- [08. Python Implementation](#python)
+- [06. Python Implementation](#python)
 
 # 00. Introduction <a name="introduction"></a>
 Underground Hydrogen Storage (UHS) is emerging as a crucial solution for storing renewable energy. Hydrogen can be injected into porous geological formations for seasonal storage. Predicting **hydrogen breakthrough time** is essential to ensure operational efficiency, safety, and maximum storage utilization.  
@@ -92,20 +90,7 @@ Dataset generation involves:
 
 This balances **physical realism** and computational efficiency.
 
-# 06. Industry Relevance & Deployment <a name="applications"></a>
-- Rapid site screening for UHS feasibility  
-- Planning injection/production schedules  
-- Reducing need for expensive simulations  
-- Early detection of breakthrough events
-
-# 07. Future Work & Extensions <a name="future"></a>
-- Extend to 3D reservoirs  
-- Integrate real-world P/T measurements  
-- Bayesian FNO for uncertainty  
-- Hybrid DeepONet + FNO  
-- Real-time predictive monitoring for operational safety
-
-# 08. Python Implementation <a name="python"></a>
+# 06. Python Implementation <a name="python"></a>
 Below is a complete Python implementation that demonstrates the development of a Physics-Informed Fourier Neural Operator (FNO) to predict hydrogen breakthrough time from heterogeneous permeability fields. The workflow is built entirely in PyTorch, leveraging FFT-based spectral convolutions for efficient operator learning. The code includes dataset generation, model definition, training, and evaluation steps, all designed to emulate the underlying two-phase flow dynamics with capillary effects in porous media. This implementation serves as both a research prototype and a foundation for scaling to larger 2D or 3D reservoir models.
 
 ```python
