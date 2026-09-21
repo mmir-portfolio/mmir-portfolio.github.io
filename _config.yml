@@ -9,7 +9,11 @@ plugins:
 #-------------------------------
 # General Site Settings
 title: Mammad Mirza, PhD
-description: "Hello, I’m Mammad, an inquisitive scientist with a PhD in Engineering and over 6 years of experience in optimization and control, subsurface modeling, computational modeling, and AI-driven solutions for energy systems. Expertise in developing scalable computational frameworks that integrate physics-based models, machine learning, and high-performance computing to solve complex industrial challenges.  Experienced in optimization algorithms, model predictive control, and differentiable programming using modern frameworks such as Casadi, JAX, PyTorch and TensorFlow. Demonstrated ability to rapidly prototype and deploy production-ready Gen-AI applications that enhance user experiences and operational efficiency, while adhering to responsible AI and data governance best practices."
+description: "
+
+Hello, I’m Mammad, a Reservoir Engineer and interdisciplinary researcher with a PhD in Chemical and Petroleum Engineering and over 10 years of experience spanning reservoir engineering, subsurface energy systems, computational modeling, optimization, and AI-driven solutions. My work has focused on reservoir characterization, interwell connectivity analysis, unconventional reservoirs, CO₂ storage, geothermal energy systems, production optimization, and data-driven reservoir management. I have developed and applied physics-based simulation models, machine learning methods, and uncertainty quantification workflows to address complex challenges in reservoir performance, fluid flow, carbon storage, and energy transition projects.
+My expertise includes reservoir simulation, production optimization, tracer-test interpretation, hydraulic fracture communication analysis, techno-economic assessment, and the integration of machine learning with reservoir engineering workflows. I am experienced in developing scalable computational frameworks using Python, JAX, PyTorch, TensorFlow, and high-performance computing platforms to support decision-making under uncertainty. I also have a demonstrated ability to rapidly prototype and deploy AI-powered applications that transform technical data into actionable insights, improving operational efficiency and supporting innovation across the energy sector.
+"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
