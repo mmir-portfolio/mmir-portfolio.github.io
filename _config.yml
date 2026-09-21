@@ -9,11 +9,9 @@ plugins:
 #-------------------------------
 # General Site Settings
 title: Mammad Mirza, PhD
-description: "
+description: "Hello, I’m Mammad, a Reservoir Engineer and interdisciplinary researcher with a PhD in Chemical and Petroleum Engineering and over 10 years of experience in reservoir engineering, subsurface energy systems, computational modeling, optimization, and AI-driven solutions. My work spans reservoir characterization, unconventional reservoirs, CO₂ storage, geothermal energy systems, production optimization, tracer-test interpretation, hydraulic fracture diagnostics, and data-driven reservoir management. I have developed and applied reservoir simulation, machine learning, uncertainty quantification, and techno-economic assessment workflows to address complex challenges in energy production and the energy transition. By combining domain expertise with modern tools such as Python, JAX, PyTorch, and high-performance computing, I transform complex subsurface data into actionable insights that improve decision-making, operational performance, and the development of sustainable energy solutions. "
 
-Hello, I’m Mammad, a Reservoir Engineer and interdisciplinary researcher with a PhD in Chemical and Petroleum Engineering and over 10 years of experience spanning reservoir engineering, subsurface energy systems, computational modeling, optimization, and AI-driven solutions. My work has focused on reservoir characterization, interwell connectivity analysis, unconventional reservoirs, CO₂ storage, geothermal energy systems, production optimization, and data-driven reservoir management. I have developed and applied physics-based simulation models, machine learning methods, and uncertainty quantification workflows to address complex challenges in reservoir performance, fluid flow, carbon storage, and energy transition projects.
-My expertise includes reservoir simulation, production optimization, tracer-test interpretation, hydraulic fracture communication analysis, techno-economic assessment, and the integration of machine learning with reservoir engineering workflows. I am experienced in developing scalable computational frameworks using Python, JAX, PyTorch, TensorFlow, and high-performance computing platforms to support decision-making under uncertainty. I also have a demonstrated ability to rapidly prototype and deploy AI-powered applications that transform technical data into actionable insights, improving operational efficiency and supporting innovation across the energy sector.
-"
+
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
